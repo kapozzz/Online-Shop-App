@@ -1,0 +1,24 @@
+package com.example.shop_app.data.client.room
+
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.Query
+import androidx.room.Update
+import com.example.shop_app.domain.model.Item
+
+@Dao
+interface ItemsDao {
+
+    @Query("SELECT * FROM items")
+    fun getAllItems(): List<Item>
+
+    @Query("SELECT * FROM items WHERE isLiked = 1")
+    fun getLikedItems(): List<Item>
+
+    @Insert
+    fun insertItems(list: List<Item>)
+
+    @Update
+    fun updateItem(item: Item)
+
+}
