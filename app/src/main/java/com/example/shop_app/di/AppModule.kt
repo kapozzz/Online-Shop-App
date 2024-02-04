@@ -4,12 +4,14 @@ import android.content.Context
 import androidx.room.Room
 import com.example.shop_app.data.client.ITEMS_DATABASE_NAME
 import com.example.shop_app.data.client.dataStore.SettingsDataStore
+import com.example.shop_app.data.client.dataStore.SignInRepositoryImpl
 import com.example.shop_app.data.client.dataStore.UserDataStore
 import com.example.shop_app.data.client.room.ItemsDatabase
 import com.example.shop_app.data.client.room.ItemsRepositoryImpl
 import com.example.shop_app.data.remote.ITEMS_BASE_URL
 import com.example.shop_app.data.remote.dto.ItemsService
 import com.example.shop_app.domain.repositories.ItemsRepository
+import com.example.shop_app.domain.repositories.SignInRepository
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -56,8 +58,13 @@ object AppModule {
         return SettingsDataStore(context)
     }
 
-    @Binds
+    @Provides
     fun provideItemsRepository(repo: ItemsRepositoryImpl): ItemsRepository {
+        return repo
+    }
+
+    @Provides
+    fun provideSignInRepository(repo: SignInRepositoryImpl): SignInRepository {
         return repo
     }
 
