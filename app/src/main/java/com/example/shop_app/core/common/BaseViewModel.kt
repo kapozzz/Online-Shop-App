@@ -1,4 +1,4 @@
-package com.example.shop_app.domain.common
+package com.example.shop_app.core.common
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,21 +16,19 @@ interface UiEffect
 
 abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect> : ViewModel() {
 
-    init {
-        subscribeEvents()
-    }
-
     private val initializeState: State by lazy { createInitialState() }
     abstract fun createInitialState(): State
-
     val currentState: State
-        get() = uiState.value
+        get() = _uiState.asStateFlow().value
 
     private val _uiState: MutableStateFlow<State> = MutableStateFlow(initializeState)
-    val uiState = _uiState.asStateFlow()
 
     private val _event: MutableSharedFlow<Event> = MutableSharedFlow()
     val event = _event.asSharedFlow()
+
+    init {
+        subscribeEvents()
+    }
 
     private val _effect: MutableSharedFlow<Effect> = MutableSharedFlow()
     val effect = _effect.asSharedFlow()
@@ -45,8 +43,8 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
         _uiState.value = newState
     }
 
-    protected fun setEffect(builder: () -> Effect) {
-        val effectValue = builder()
+    protected fun setEffect(effect: Effect) {
+        val effectValue = effect
         viewModelScope.launch { _effect.emit(effectValue) }
     }
 

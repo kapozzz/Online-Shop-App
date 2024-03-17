@@ -19,14 +19,14 @@ class SettingsDataStore(
 
     suspend fun itStarted() {
         context.settingsDataStore.edit { settings ->
-            settings[isFirstStart] = true
+            settings[isFirstStart] = false
         }
     }
 
     suspend fun isFirstStart(): Boolean {
         return context.settingsDataStore.data
             .map { settings ->
-                settings[isFirstStart] ?: false
+                settings[isFirstStart] ?: true
             }.first()
     }
 

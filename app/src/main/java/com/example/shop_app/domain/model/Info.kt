@@ -1,6 +1,8 @@
 package com.example.shop_app.domain.model
 
+import com.google.gson.annotations.SerializedName
+
 data class Info(
-    val title: String,
-    val value: String
+    @SerializedName("title") val title: String,
+    @SerializedName("value") val value: String
 )

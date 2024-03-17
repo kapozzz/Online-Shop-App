@@ -2,6 +2,7 @@ package com.example.shop_app.data.client.room
 
 import androidx.room.Dao
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.shop_app.domain.model.Item
@@ -15,7 +16,7 @@ interface ItemsDao {
     @Query("SELECT * FROM items WHERE isLiked = 1")
     fun getLikedItems(): List<Item>
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItems(list: List<Item>)
 
     @Update
