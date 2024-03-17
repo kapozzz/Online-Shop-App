@@ -11,7 +11,11 @@ class Navigator(
     }
 
     fun navigateToMainScreen() {
-        navController.navigate(Routes.MAIN_SCREEN)
+        navController.navigate(Routes.MAIN_SCREEN) {
+            popUpTo(Routes.SIGN_IN_SCREEN) {
+                inclusive = true
+            }
+        }
     }
 
     fun back() {

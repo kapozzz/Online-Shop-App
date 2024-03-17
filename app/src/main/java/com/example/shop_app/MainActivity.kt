@@ -19,6 +19,7 @@ import com.example.shop_app.core.navigation.Routes
 import com.example.shop_app.domain.repositories.SignInRepository
 import com.example.shop_app.domain.repositories.UserRepository
 import com.example.shop_app.presentation.main_screen.MainScreenRoute
+import com.example.shop_app.presentation.main_screen.MainScreenViewModel
 import com.example.shop_app.presentation.signIn.SignInRoute
 import com.example.shop_app.presentation.signIn.SignInViewModel
 import com.example.shop_app.presentation.theme.ShopAppTheme
@@ -59,9 +60,15 @@ private fun AppNavigation() {
         }
 
         composable(Routes.MAIN_SCREEN) {
-            MainScreenRoute()
+            wrapper.Wrap {
+                val mainScreenViewModel: MainScreenViewModel = hiltViewModel()
+                MainScreenRoute(
+                    state = mainScreenViewModel.currentState,
+                    effect = mainScreenViewModel.effect,
+                    setEvent = mainScreenViewModel::setEvent
+                )
+            }
         }
-
     }
 }
 

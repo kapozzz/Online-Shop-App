@@ -26,7 +26,8 @@ private val LightColorScheme = lightColorScheme(
     onBackground = Color.Black,
     secondaryContainer = LightGray,
     onSecondaryContainer = Color.Black,
-    secondary = Color.Gray
+    secondary = Color.Gray,
+    tertiary = Gold
 
 )
 
