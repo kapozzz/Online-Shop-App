@@ -1,4 +1,4 @@
-package com.example.shop_app.domain.navigation
+package com.example.shop_app.core.navigation
 
 import androidx.navigation.NavController
 
@@ -8,6 +8,10 @@ class Navigator(
 
     fun navigateToSignIn() {
         navController.navigate(Routes.SIGN_IN_SCREEN)
+    }
+
+    fun navigateToMainScreen() {
+        navController.navigate(Routes.MAIN_SCREEN)
     }
 
     fun back() {

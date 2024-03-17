@@ -12,12 +12,13 @@ import com.example.shop_app.data.remote.ITEMS_BASE_URL
 import com.example.shop_app.data.remote.dto.ItemsService
 import com.example.shop_app.domain.repositories.ItemsRepository
 import com.example.shop_app.domain.repositories.SignInRepository
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -29,9 +30,20 @@ object AppModule {
     @Provides
     @Singleton
     fun provideItemsApi(): ItemsService {
+
+        val logger = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+
+        val okHttpClient = OkHttpClient
+            .Builder()
+            .addInterceptor(logger)
+            .build()
+
         return Retrofit.Builder()
             .baseUrl(ITEMS_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
             .build()
             .create(ItemsService::class.java)
     }
@@ -39,11 +51,14 @@ object AppModule {
     @Provides
     @Singleton
     fun provideItemsDatabase(@ApplicationContext context: Context): ItemsDatabase {
-        return Room.databaseBuilder(
-            context,
-            ItemsDatabase::class.java,
-            ITEMS_DATABASE_NAME
-        ).build()
+        return Room
+            .databaseBuilder(
+                context,
+                ItemsDatabase::class.java,
+                ITEMS_DATABASE_NAME
+            )
+            .fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
@@ -54,7 +69,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideSettingsDataStore(@ApplicationContext context: Context) : SettingsDataStore {
+    fun provideSettingsDataStore(@ApplicationContext context: Context): SettingsDataStore {
         return SettingsDataStore(context)
     }
 
