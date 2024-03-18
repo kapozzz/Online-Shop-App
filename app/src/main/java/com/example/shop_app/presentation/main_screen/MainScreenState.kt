@@ -11,7 +11,8 @@ import com.example.shop_app.domain.model.SortType
 
 data class MainScreenState(
     val items: MutableState<List<Item>> = mutableStateOf(emptyList()),
-    val searchQuery: MutableState<SearchQuery> = mutableStateOf(SearchQuery.getDefault())
+    val searchQuery: MutableState<SearchQuery> = mutableStateOf(SearchQuery.getDefault()),
+    val loading: MutableState<Boolean> = mutableStateOf(false)
 ): UiState
 
 sealed class MainScreenEvent: UiEvent {

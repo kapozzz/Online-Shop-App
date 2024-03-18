@@ -46,20 +46,11 @@ fun SignInRoute(
         }
     }
 
-    if (state.loading.value) LoadingScreen()
-    else SignInScreen(state = state, setEvent = setEvent)
+    SignInScreen(state = state, setEvent = setEvent)
 
 }
 
-@Composable
-private fun LoadingScreen() {
-    Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        CircularProgressIndicator(modifier = Modifier.size(80.dp))
-    }
-}
+
 
 @Composable
 private fun SignInScreen(

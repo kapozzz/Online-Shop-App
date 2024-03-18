@@ -29,19 +29,4 @@ class SignInRepositoryImpl @Inject constructor(
         return settingsDataStore.isFirstStart()
     }
 
-    override suspend fun itStarted(): Flow<Resource<Boolean>> {
-        return flow {
-            try {
-                emit(Resource.Loading())
-                withContext(Dispatchers.IO) {
-                    val itemsDto = itemsService.getItems()
-                    itemsRepository.addItems(itemsDto.toItems())
-                    settingsDataStore.itStarted()
-                }
-                emit(Resource.Success(true))
-            } catch (e: Exception) {
-                emit(Resource.Failure(e.message))
-            }
-        }
-    }
 }

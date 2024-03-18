@@ -15,13 +15,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.shop_app.R
 import com.example.shop_app.presentation.main_screen.MainScreenEvent
+import com.example.shop_app.presentation.main_screen.MainScreenState
+import com.example.shop_app.presentation.theme.ShopAppType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainScreenTopBar(setEvent: (event: MainScreenEvent) -> Unit) {
-
+fun MainScreenTopBar(
+    state: MainScreenState,
+    setEvent: (event: MainScreenEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
     TopAppBar(
-        modifier = Modifier,
+        modifier = modifier,
         title = {
             Column(
                 modifier = Modifier.fillMaxWidth()
@@ -29,16 +34,21 @@ fun MainScreenTopBar(setEvent: (event: MainScreenEvent) -> Unit) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(vertical = 8.dp),
+                        .padding(
+                            bottom = 4.dp,
+                        ),
                     text = stringResource(R.string.catalog),
-                    style = MaterialTheme.typography.bodySmall,
+                    style = ShopAppType.titleLarge,
                     color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center
                 )
                 SortTypeFilter(
+                    modifier = Modifier,
+                    type = state.searchQuery.value.sortType,
                     onSortTypeChanged = {
                         setEvent(MainScreenEvent.NewSortType(it))
-                    })
+                    }
+                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
