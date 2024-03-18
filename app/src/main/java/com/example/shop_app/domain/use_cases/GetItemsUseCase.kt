@@ -13,39 +13,29 @@ class GetItemsUseCase @Inject constructor(
     private val itemsRepository: ItemsRepository
 ) {
 
-    suspend operator fun invoke(searchQuery: SearchQuery): Flow<Resource<List<Item>>> {
+    suspend operator fun invoke(searchQuery: SearchQuery): List<Item> {
 
-        return flow {
+        val items = mutableListOf<Item>()
 
-            try {
+        items.addAll(if (searchQuery.onlyLiked) itemsRepository.getLikedItems() else itemsRepository.getItems())
 
-                emit(Resource.Loading())
+        when (searchQuery.sortType) {
 
-                val items = mutableListOf<Item>()
-
-                items.addAll(if (searchQuery.onlyLiked) itemsRepository.getLikedItems() else itemsRepository.getItems())
-
-                when (searchQuery.sortType) {
-
-                    SortType.ByCostAscending -> {
-                        items.sortBy { it.price.price.toLong() }
-                    }
-
-                    SortType.ByCostDescending -> {
-                        items.sortByDescending { it.price.price.toLong() }
-                    }
-
-                    SortType.ByRating -> {
-                        items.sortBy { it.feedback.rating }
-                    }
-
-                }
-
-                emit(Resource.Success(items))
-
-            } catch (e: Exception) {
-                emit(Resource.Failure(message = e.message))
+            SortType.ByCostAscending -> {
+                items.sortBy { it.price.price.toLong() }
             }
+
+            SortType.ByCostDescending -> {
+                items.sortByDescending { it.price.price.toLong() }
+            }
+
+            SortType.ByRating -> {
+                items.sortBy { it.feedback.rating }
+            }
+
         }
+
+        return items
+
     }
 }

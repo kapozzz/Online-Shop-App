@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.shop_app.domain.model.Item
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ItemsDao {

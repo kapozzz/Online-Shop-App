@@ -2,6 +2,7 @@ package com.example.shop_app.data.client.room
 
 import com.example.shop_app.domain.model.Item
 import com.example.shop_app.domain.repositories.ItemsRepository
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class ItemsRepositoryImpl @Inject constructor(
