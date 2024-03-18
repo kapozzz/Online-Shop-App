@@ -10,6 +10,4 @@ interface SignInRepository {
 
     suspend fun isFirstStart(): Boolean
 
-    suspend fun itStarted(): Flow<Resource<Boolean>>
-
 }

@@ -25,42 +25,12 @@ class SignInViewModel @Inject constructor(
         return SignInState()
     }
 
-    init {
-        viewModelScope.launch{
-
-            val isFirstStart = signInRepository.isFirstStart()
-            Log.d("shop_info", "$isFirstStart")
-
-            if (!isFirstStart) {
-                loadData()
-            }
-        }
-    }
-
     override fun handleEvent(event: SignInEvent) {
         when (event) {
             SignInEvent.ValidateUserData -> {
                 validateUser()
             }
         }
-    }
-
-    private suspend fun loadData() {
-        signInRepository.itStarted().onEach {
-            when (it) {
-                is Resource.Failure -> {
-                    throw IOException(it.message)
-                }
-
-                is Resource.Loading -> {
-                    currentState.loading.value = true
-                }
-
-                is Resource.Success -> {
-                    setEffect(SignInEffect.UserDataIsValidated)
-                }
-            }
-        }.launchIn(viewModelScope)
     }
 
     private fun validateUser() {
@@ -71,7 +41,7 @@ class SignInViewModel @Inject constructor(
         )
         viewModelScope.launch {
             signInRepository.saveUser(user)
-            loadData()
+            setEffect(SignInEffect.UserDataIsValidated)
         }
     }
 }

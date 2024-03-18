@@ -6,4 +6,7 @@
     <string name="enter">Enter</string>
     <string name="catalog">Catalog</string>
     <string name="sorting">Sorting</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="rating">Rating</string>
 </resources>
