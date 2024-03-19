@@ -21,6 +21,8 @@ import androidx.compose.ui.unit.dp
 import com.example.shop_app.presentation.main_screen.components.ItemCard
 import com.example.shop_app.presentation.main_screen.components.MainScreenTopBar
 import com.example.shop_app.presentation.theme.ShopAppTheme
+import com.google.accompanist.swiperefresh.SwipeRefresh
+import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
@@ -30,15 +32,10 @@ fun MainScreenRoute(
     setEvent: (event: MainScreenEvent) -> Unit
 ) {
 
-    if (state.loading.value) {
-        LoadingScreen()
-    }
-    else {
-        MainScreen(
-            state = state,
-            setEvent = setEvent
-        )
-    }
+    MainScreen(
+        state = state,
+        setEvent = setEvent
+    )
 
 }
 
@@ -76,18 +73,17 @@ private fun MainScreen(
 
     ) { paddingValues ->
 
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues)
+        val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = state.loading.value)
+
+        SwipeRefresh(
+            modifier = Modifier.fillMaxSize().padding(paddingValues),
+            state = swipeRefreshState,
+            onRefresh = { setEvent(MainScreenEvent.RefreshData) }
         ) {
-
-
             LazyVerticalGrid(
                 modifier = Modifier
-                    .padding(
-                        top = 10.dp
-                    ),
+                    .fillMaxSize()
+                    .padding(top = 8.dp),
                 contentPadding = PaddingValues(8.dp),
                 columns = GridCells.Fixed(2)
             ) {

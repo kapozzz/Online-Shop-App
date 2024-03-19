@@ -2,6 +2,7 @@ package com.example.shop_app.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.shop_app.core.common.NetworkConnectivityObserver
 import com.example.shop_app.data.client.ITEMS_DATABASE_NAME
 import com.example.shop_app.data.client.dataStore.SettingsDataStore
 import com.example.shop_app.data.client.dataStore.SignInRepositoryImpl
@@ -81,6 +82,12 @@ object AppModule {
     @Provides
     fun provideSignInRepository(repo: SignInRepositoryImpl): SignInRepository {
         return repo
+    }
+
+    @Provides
+    @Singleton
+    fun provideConnectivityObserver(@ApplicationContext context: Context): NetworkConnectivityObserver {
+        return NetworkConnectivityObserver(context)
     }
 
 }

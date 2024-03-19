@@ -12,7 +12,8 @@ import com.example.shop_app.domain.model.SortType
 data class MainScreenState(
     val items: MutableState<List<Item>> = mutableStateOf(emptyList()),
     val searchQuery: MutableState<SearchQuery> = mutableStateOf(SearchQuery.getDefault()),
-    val loading: MutableState<Boolean> = mutableStateOf(false)
+    val loading: MutableState<Boolean> = mutableStateOf(true),
+    val networkStatus: MutableState<Boolean> = mutableStateOf(true)
 ): UiState
 
 sealed class MainScreenEvent: UiEvent {
@@ -21,6 +22,7 @@ sealed class MainScreenEvent: UiEvent {
     data class AddItem(val id: String): MainScreenEvent()
     data class NewSortType(val type: SortType): MainScreenEvent()
     data class OnItemClick(val id: String): MainScreenEvent()
+    data object RefreshData: MainScreenEvent()
 
 }
 
