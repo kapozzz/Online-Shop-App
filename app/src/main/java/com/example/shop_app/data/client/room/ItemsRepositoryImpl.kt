@@ -9,11 +9,11 @@ class ItemsRepositoryImpl @Inject constructor(
     private val itemsDatabase: ItemsDatabase
 ): ItemsRepository {
 
-    override suspend fun getItems(): List<Item> {
+    override suspend fun getItems(): Flow<List<Item>> {
         return itemsDatabase.itemsDao().getAllItems()
     }
 
-    override suspend fun getLikedItems(): List<Item> {
+    override suspend fun getLikedItems(): Flow<List<Item>> {
         return itemsDatabase.itemsDao().getLikedItems()
     }
 

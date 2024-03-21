@@ -9,4 +9,6 @@
     <string name="ascending">Ascending</string>
     <string name="descending">Descending</string>
     <string name="rating">Rating</string>
+    <string name="no_internet_connection">No internet connection :(</string>
+    <string name="no_products_found">No products found :(</string>
 </resources>

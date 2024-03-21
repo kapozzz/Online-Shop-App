@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.Flow
 interface ItemsDao {
 
     @Query("SELECT * FROM items")
-    fun getAllItems(): List<Item>
+    fun getAllItems(): Flow<List<Item>>
 
     @Query("SELECT * FROM items WHERE isLiked = 1")
-    fun getLikedItems(): List<Item>
+    fun getLikedItems(): Flow<List<Item>>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItems(list: List<Item>)

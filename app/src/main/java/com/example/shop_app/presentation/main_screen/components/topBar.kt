@@ -9,6 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -17,6 +18,7 @@ import com.example.shop_app.R
 import com.example.shop_app.presentation.main_screen.MainScreenEvent
 import com.example.shop_app.presentation.main_screen.MainScreenState
 import com.example.shop_app.presentation.theme.ShopAppType
+import kotlinx.coroutines.flow.asStateFlow
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -44,9 +46,11 @@ fun MainScreenTopBar(
                 )
                 SortTypeFilter(
                     modifier = Modifier,
-                    type = state.searchQuery.value.sortType,
+                    type = state.searchQuery.collectAsState().value.sortType,
                     onSortTypeChanged = {
-                        setEvent(MainScreenEvent.NewSortType(it))
+                        state.searchQuery.value = state.searchQuery.value.copy(
+                            sortType = it
+                        )
                     }
                 )
             }

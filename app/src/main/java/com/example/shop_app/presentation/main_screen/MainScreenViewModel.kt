@@ -4,14 +4,20 @@ import androidx.lifecycle.viewModelScope
 import com.example.shop_app.core.common.BaseViewModel
 import com.example.shop_app.core.common.ConnectivityObserver
 import com.example.shop_app.core.common.NetworkConnectivityObserver
+import com.example.shop_app.domain.model.Item
 import com.example.shop_app.domain.model.SearchQuery
+import com.example.shop_app.domain.repositories.ItemsRepository
 import com.example.shop_app.domain.use_cases.MainScreenUseCases
 import com.example.shop_app.domain.util.Resource
-import com.example.shop_app.presentation.signIn.SignInEffect
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharedFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
@@ -24,10 +30,14 @@ import javax.inject.Inject
 @HiltViewModel
 class MainScreenViewModel @Inject constructor(
     private val useCases: MainScreenUseCases,
-    private val connectivityObserver: NetworkConnectivityObserver
+    private val connectivityObserver: NetworkConnectivityObserver,
+    private val repository: ItemsRepository
 ) : BaseViewModel<MainScreenEvent, MainScreenState, MainScreenEffect>() {
 
     private var job: Job? = null
+
+//    private val searchQueryFlow: MutableStateFlow<SearchQuery> =
+//        MutableStateFlow(SearchQuery.getDefault())
 
     override fun createInitialState(): MainScreenState {
         return MainScreenState()
@@ -38,9 +48,8 @@ class MainScreenViewModel @Inject constructor(
             handleNetworkStatus()
         }
         viewModelScope.launch {
-            withContext(Dispatchers.IO) {
-                loadData()
-            }
+            refreshData()
+            loadData()
         }
 
     }
@@ -48,24 +57,39 @@ class MainScreenViewModel @Inject constructor(
     override fun handleEvent(event: MainScreenEvent) {
         viewModelScope.launch {
             when (event) {
-                is MainScreenEvent.NewSortType -> {
-                    currentState.searchQuery.value = currentState.searchQuery.value.copy(
-                        sortType = event.type
-                    )
-                    withContext(Dispatchers.IO) {
-                        loadData(currentState.searchQuery.value)
-                    }
-                }
 
                 is MainScreenEvent.RefreshData -> {
-                    loadData()
+                    refreshData()
                 }
 
+                is MainScreenEvent.LikeItem -> {
+                    likeItem(event.item)
+                }
+
+                is MainScreenEvent.OnItemClick -> {
+                    setEffect(MainScreenEffect.OnItemClick(event.item))
+                }
+
+//                is MainScreenEvent.SearchQueryChanged -> {
+//                    searchQueryChanged(event.searchQuery)
+//                }
+
                 is MainScreenEvent.AddItem -> TODO()
-                is MainScreenEvent.LikeItem -> TODO()
-                is MainScreenEvent.OnItemClick -> TODO()
+
             }
         }
+    }
+
+//    private fun searchQueryChanged(searchQuery: SearchQuery) {
+//        searchQueryFlow.value = currentState.searchQuery.value
+//    }
+
+    private suspend fun likeItem(item: Item) {
+        repository.updateItem(
+            item.copy(
+                isLiked = !item.isLiked
+            )
+        )
     }
 
     private suspend fun handleNetworkStatus() {
@@ -82,39 +106,39 @@ class MainScreenViewModel @Inject constructor(
         }
     }
 
-    private suspend fun loadData(
-        searchQuery: SearchQuery = SearchQuery.getDefault()
-    ) {
-
+    private fun refreshData() {
         job?.cancel()
+        job = viewModelScope.launch(Dispatchers.IO) {
+            when (connectivityObserver.observe().first()) {
+                ConnectivityObserver.Status.Available -> {
+                    useCases.refreshDataUseCase()
+                        .flowOn(Dispatchers.IO)
+                        .onEach {
 
-        when (connectivityObserver.observe().first()) {
-            ConnectivityObserver.Status.Available -> {
-                val itemsFlow = useCases.getItemsUseCase(searchQuery = searchQuery)
-                job = itemsFlow
-                    .flowOn(Dispatchers.IO)
-                    .onEach { resource ->
-                        when (resource) {
-                            is Resource.Failure -> {
-                                throw IOException(resource.message)
+                            when (it) {
+                                is Resource.Failure -> throw IOException(it.message)
+                                is Resource.Loading -> currentState.loading.value = true
+                                is Resource.Success -> currentState.loading.value = false
                             }
 
-                            is Resource.Success -> {
-                                currentState.items.value = resource.data ?: emptyList()
-                                currentState.loading.value = false
-                            }
+                        }.launchIn(viewModelScope)
+                }
 
-                            is Resource.Loading -> {
-                                currentState.loading.value = true
-                            }
-                        }
-                    }
-                    .launchIn(viewModelScope)
-            }
+                else -> {
 
-            else -> {
-                return
+                }
             }
         }
+    }
+
+    private suspend fun loadData() {
+        repository.getItems()
+            .flowOn(Dispatchers.IO)
+            .combine(currentState.searchQuery) { list, query ->
+                useCases.sortItemsUseCase(list, query)
+            }
+            .collect {
+                currentState.items.value = it
+            }
     }
 }
