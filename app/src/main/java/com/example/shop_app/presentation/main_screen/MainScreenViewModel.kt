@@ -5,18 +5,12 @@ import com.example.shop_app.core.common.BaseViewModel
 import com.example.shop_app.core.common.ConnectivityObserver
 import com.example.shop_app.core.common.NetworkConnectivityObserver
 import com.example.shop_app.domain.model.Item
-import com.example.shop_app.domain.model.SearchQuery
 import com.example.shop_app.domain.repositories.ItemsRepository
 import com.example.shop_app.domain.use_cases.MainScreenUseCases
 import com.example.shop_app.domain.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
@@ -35,9 +29,6 @@ class MainScreenViewModel @Inject constructor(
 ) : BaseViewModel<MainScreenEvent, MainScreenState, MainScreenEffect>() {
 
     private var job: Job? = null
-
-//    private val searchQueryFlow: MutableStateFlow<SearchQuery> =
-//        MutableStateFlow(SearchQuery.getDefault())
 
     override fun createInitialState(): MainScreenState {
         return MainScreenState()
@@ -67,29 +58,35 @@ class MainScreenViewModel @Inject constructor(
                 }
 
                 is MainScreenEvent.OnItemClick -> {
-                    setEffect(MainScreenEffect.OnItemClick(event.item))
+                    setEffect(MainScreenEffect.OnItemClick(event.item.id))
                 }
 
-//                is MainScreenEvent.SearchQueryChanged -> {
-//                    searchQueryChanged(event.searchQuery)
-//                }
-
-                is MainScreenEvent.AddItem -> TODO()
+                is MainScreenEvent.OnBasketClick -> {
+                    onBasketClick(event.item)
+                }
 
             }
         }
     }
 
-//    private fun searchQueryChanged(searchQuery: SearchQuery) {
-//        searchQueryFlow.value = currentState.searchQuery.value
-//    }
+    private suspend fun onBasketClick(item: Item) {
+        withContext(Dispatchers.IO) {
+            repository.updateItem(
+                item.copy(
+                    inBasket = !item.inBasket
+                )
+            )
+        }
+    }
 
     private suspend fun likeItem(item: Item) {
-        repository.updateItem(
-            item.copy(
-                isLiked = !item.isLiked
+        withContext(Dispatchers.IO) {
+            repository.updateItem(
+                item.copy(
+                    isLiked = !item.isLiked
+                )
             )
-        )
+        }
     }
 
     private suspend fun handleNetworkStatus() {

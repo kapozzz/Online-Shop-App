@@ -7,7 +7,6 @@ import com.example.shop_app.core.common.UiEvent
 import com.example.shop_app.core.common.UiState
 import com.example.shop_app.domain.model.Item
 import com.example.shop_app.domain.model.SearchQuery
-import com.example.shop_app.domain.model.SortType
 import kotlinx.coroutines.flow.MutableStateFlow
 
 data class MainScreenState(
@@ -20,16 +19,14 @@ data class MainScreenState(
 sealed class MainScreenEvent: UiEvent {
 
     data class LikeItem(val item: Item): MainScreenEvent()
-    data class AddItem(val item: Item): MainScreenEvent()
+    data class OnBasketClick(val item: Item): MainScreenEvent()
     data class OnItemClick(val item: Item): MainScreenEvent()
-
-//    data class SearchQueryChanged(val searchQuery: SearchQuery): MainScreenEvent()
     data object RefreshData: MainScreenEvent()
 
 }
 
 sealed class MainScreenEffect: UiEffect {
 
-    data class OnItemClick(val item: Item): MainScreenEffect()
+    data class OnItemClick(val itemID: String): MainScreenEffect()
 
 }

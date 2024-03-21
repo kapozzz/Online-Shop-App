@@ -15,9 +15,7 @@ import javax.inject.Inject
 
 class SignInRepositoryImpl @Inject constructor(
     private val userDataStore: UserDataStore,
-    private val settingsDataStore: SettingsDataStore,
-    private val itemsService: ItemsService,
-    private val itemsRepository: ItemsRepository
+    private val settingsDataStore: SettingsDataStore
 ) : SignInRepository {
 
     override suspend fun saveUser(user: User) {

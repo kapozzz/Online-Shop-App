@@ -9,6 +9,8 @@ interface ItemsRepository {
 
     suspend fun getLikedItems(): Flow<List<Item>>
 
+    suspend fun getItemsInBasket(): Flow<List<Item>>
+
     suspend fun updateItem(item: Item)
 
     suspend fun addItems(items: List<Item>)

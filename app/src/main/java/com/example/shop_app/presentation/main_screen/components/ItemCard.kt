@@ -2,6 +2,7 @@ package com.example.shop_app.presentation.main_screen.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -39,8 +41,9 @@ import com.example.shop_app.presentation.theme.ShopAppTheme
 @Composable
 fun ItemCard(
     item: Item,
-    addItem: (itemId: String) -> Unit,
-    onLikeClick: (itemId: String) -> Unit,
+    onBasketClick: (item: Item) -> Unit,
+    onLikeClick: (item: Item) -> Unit,
+    onItemClick: (item: Item) -> Unit,
     modifier: Modifier = Modifier
 ) {
 
@@ -52,7 +55,10 @@ fun ItemCard(
                 width = 1.dp,
                 color = MaterialTheme.colorScheme.secondaryContainer,
                 shape = RoundedCornerShape(8.dp)
-            ),
+            )
+            .clickable {
+                onItemClick(item)
+            },
         shape = RoundedCornerShape(8.dp)
     ) {
 
@@ -163,9 +169,10 @@ fun ItemCard(
                     .background(MaterialTheme.colorScheme.primary),
                 contentAlignment = Alignment.Center
             ) {
-                IconButton(onClick = { addItem(item.id) }) {
+                IconButton(onClick = { onBasketClick(item) }) {
                     Icon(
-                        imageVector = Icons.Default.Add,
+                        imageVector = if (!item.inBasket) Icons.Default.Add
+                        else Icons.Default.Close,
                         contentDescription = null,
                         tint = MaterialTheme.colorScheme.onPrimary
                     )
@@ -174,7 +181,7 @@ fun ItemCard(
 
             IconButton(
                 modifier = Modifier.align(Alignment.TopEnd),
-                onClick = { onLikeClick(item.id) }
+                onClick = { onLikeClick(item) }
             ) {
                 Icon(
                     painter = painterResource(
@@ -193,7 +200,7 @@ fun ItemCard(
 @Preview
 private fun ItemCardPreview() {
     ShopAppTheme {
-        ItemCard(item = mock_item, {}, {})
+        ItemCard(item = mock_item, {}, {}, {})
     }
 }
 
@@ -209,13 +216,6 @@ private val mock_item = Item(
     tags = emptyList(),
     title = "ESFOLIO",
     isLiked = false,
+    inBasket = false,
     image = "https://yandex.ru/images/search?from=tabbar&img_url=https%3A%2F%2Fnaturel.ua%2Fpreset%2Fshop_product_type_schema%2F3ac13eec-b7e2-11e8-bd59-001e676e7890-e23a817d-cac6-11e8-82ae-001e676e7890.jpeg%3F1657807158&lr=213&pos=0&rpt=simage&text=ESFOLIO"
 )
-
-
-
-
-
-
-
-

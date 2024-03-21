@@ -1,6 +1,7 @@
 package com.example.shop_app
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.runtime.Composable
@@ -9,9 +10,12 @@ import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavType
+import androidx.navigation.NavigatorState
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.shop_app.core.navigation.CompositionWrapper
 import com.example.shop_app.core.navigation.LocalNavigator
 import com.example.shop_app.core.navigation.Navigator
@@ -19,6 +23,7 @@ import com.example.shop_app.core.navigation.Routes
 import com.example.shop_app.data.client.dataStore.SettingsDataStore
 import com.example.shop_app.domain.repositories.SignInRepository
 import com.example.shop_app.domain.repositories.UserRepository
+import com.example.shop_app.presentation.item_details.ItemDetailsRoute
 import com.example.shop_app.presentation.main_screen.MainScreenRoute
 import com.example.shop_app.presentation.main_screen.MainScreenViewModel
 import com.example.shop_app.presentation.signIn.SignInRoute
@@ -80,9 +85,25 @@ private fun AppNavigation(isFirstStart: Boolean) {
                 val mainScreenViewModel: MainScreenViewModel = hiltViewModel()
                 MainScreenRoute(
                     state = mainScreenViewModel.currentState,
-                    effect = mainScreenViewModel.effect,
+                    effects = mainScreenViewModel.effect,
                     setEvent = mainScreenViewModel::setEvent
                 )
+            }
+        }
+
+
+        composable(
+            Routes.ItemDetails.ROUTE,
+            arguments = listOf(navArgument("itemID") {type = NavType.StringType})
+        ) {
+
+            val itemID = it.arguments?.getString("itemID")
+            Log.d("itemID", "$itemID")
+
+            wrapper.Wrap {
+
+                ItemDetailsRoute()
+
             }
         }
     }

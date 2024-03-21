@@ -60,5 +60,4 @@ abstract class BaseViewModel<Event : UiEvent, State : UiState, Effect : UiEffect
 
     abstract fun handleEvent(event: Event)
 
-
 }

@@ -31,6 +31,7 @@ fun ItemDto.toItem(): Item = Item(
     subtitle = this.subtitle,
     tags = this.tags,
     title = this.title,
+    image = image,
     isLiked = false,
-    image = image
+    inBasket = false
 )

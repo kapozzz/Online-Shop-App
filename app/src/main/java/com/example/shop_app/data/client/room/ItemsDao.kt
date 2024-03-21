@@ -17,6 +17,9 @@ interface ItemsDao {
     @Query("SELECT * FROM items WHERE isLiked = 1")
     fun getLikedItems(): Flow<List<Item>>
 
+    @Query("SELECT * FROM items WHERE inBasket = 1")
+    fun getItemsInBasket(): Flow<List<Item>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertItems(list: List<Item>)
 

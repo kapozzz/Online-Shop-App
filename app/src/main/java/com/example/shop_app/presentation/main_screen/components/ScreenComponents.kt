@@ -52,11 +52,14 @@ fun ItemsScreen(
                 ItemCard(
                     modifier = Modifier.padding(8.dp),
                     item = item,
-                    addItem = {
-                        // todo
+                    onBasketClick = {
+                        setEvent(MainScreenEvent.OnBasketClick(it))
                     },
                     onLikeClick = {
-                        // todo
+                        setEvent(MainScreenEvent.LikeItem(it))
+                    },
+                    onItemClick = {
+                        setEvent(MainScreenEvent.OnItemClick(it))
                     }
                 )
             }

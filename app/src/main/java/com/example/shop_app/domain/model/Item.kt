@@ -16,6 +16,7 @@ data class Item(
     @ColumnInfo(name = "subtitle") val subtitle: String,
     @ColumnInfo(name = "tags") val tags: List<String>,
     @ColumnInfo(name = "title") val title: String,
+    @ColumnInfo(name = "image") val image: String,
     @ColumnInfo(name = "isLiked") val isLiked: Boolean,
-    @ColumnInfo(name = "image") val image: String
+    @ColumnInfo(name = "inBasket") val inBasket: Boolean
 )

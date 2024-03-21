@@ -17,6 +17,10 @@ class ItemsRepositoryImpl @Inject constructor(
         return itemsDatabase.itemsDao().getLikedItems()
     }
 
+    override suspend fun getItemsInBasket(): Flow<List<Item>> {
+        return itemsDatabase.itemsDao().getItemsInBasket()
+    }
+
     override suspend fun updateItem(item: Item) {
         itemsDatabase.itemsDao().updateItem(item = item)
     }

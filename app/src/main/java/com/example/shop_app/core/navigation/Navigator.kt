@@ -1,5 +1,6 @@
 package com.example.shop_app.core.navigation
 
+import android.content.ClipData.Item
 import androidx.navigation.NavController
 
 class Navigator(
@@ -16,6 +17,10 @@ class Navigator(
                 inclusive = true
             }
         }
+    }
+
+    fun navigateToItemDetailScreen(itemID: String) {
+        navController.navigate("${Routes.ItemDetails.BASE_ROUTE}/{$itemID}")
     }
 
     fun back() {
