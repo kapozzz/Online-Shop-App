@@ -2,7 +2,7 @@
   <img src="screenshots/main_screen.png" align="start"
 width="200"
     hspace="10" vspace="10">
-  <img src="screenshots/item_details_screen.png" align="start"
+  <img src="screenshots/item_details_screenshot.png" align="start"
 width="200"
     hspace="10" vspace="10">
 </div>
