@@ -10,7 +10,7 @@ import com.example.shop_app.data.client.dataStore.UserDataStore
 import com.example.shop_app.data.client.room.ItemsDatabase
 import com.example.shop_app.data.client.room.ItemsRepositoryImpl
 import com.example.shop_app.data.remote.ITEMS_BASE_URL
-import com.example.shop_app.data.remote.dto.ItemsService
+import com.example.shop_app.data.remote.ItemsService
 import com.example.shop_app.domain.repositories.ItemsRepository
 import com.example.shop_app.domain.repositories.SignInRepository
 import dagger.Module

@@ -10,8 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.shop_app.core.navigation.LocalNavigator
 import com.example.shop_app.core.navigation.Navigator
 import com.example.shop_app.presentation.main_screen.components.EmptyListScreen
@@ -30,13 +33,15 @@ fun MainScreenRoute(
 ) {
 
     val navigator = LocalNavigator.current
+    val lifecycle = LocalLifecycleOwner.current
 
     LaunchedEffect(true) {
-        effects.collect {
-            handleEffect(it, navigator)
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            effects.collect {
+                handleEffect(it, navigator)
+            }
         }
     }
-
 
     MainScreen(
         state = state,

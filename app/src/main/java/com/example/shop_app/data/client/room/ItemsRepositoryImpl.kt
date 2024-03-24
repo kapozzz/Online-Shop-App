@@ -13,6 +13,10 @@ class ItemsRepositoryImpl @Inject constructor(
         return itemsDatabase.itemsDao().getAllItems()
     }
 
+    override suspend fun getItemById(id: String): Flow<Item> {
+        return itemsDatabase.itemsDao().getItemById(id)
+    }
+
     override suspend fun getLikedItems(): Flow<List<Item>> {
         return itemsDatabase.itemsDao().getLikedItems()
     }

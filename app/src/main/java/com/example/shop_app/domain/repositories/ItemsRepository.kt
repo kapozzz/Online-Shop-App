@@ -7,6 +7,8 @@ interface ItemsRepository {
 
     suspend fun getItems(): Flow<List<Item>>
 
+    suspend fun getItemById(id: String): Flow<Item>
+
     suspend fun getLikedItems(): Flow<List<Item>>
 
     suspend fun getItemsInBasket(): Flow<List<Item>>

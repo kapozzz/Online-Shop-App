@@ -14,6 +14,9 @@ interface ItemsDao {
     @Query("SELECT * FROM items")
     fun getAllItems(): Flow<List<Item>>
 
+    @Query("SELECT * FROM items WHERE id=:itemId ")
+    fun getItemById(itemId: String): Flow<Item>
+
     @Query("SELECT * FROM items WHERE isLiked = 1")
     fun getLikedItems(): Flow<List<Item>>
 

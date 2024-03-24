@@ -19,4 +19,32 @@ data class Item(
     @ColumnInfo(name = "image") val image: String,
     @ColumnInfo(name = "isLiked") val isLiked: Boolean,
     @ColumnInfo(name = "inBasket") val inBasket: Boolean
-)
+) {
+    companion object {
+        fun getEmptyItem(): Item {
+            return Item(
+                id = "empty",
+                available = 0,
+                description = "empty",
+                feedback = Feedback(
+                    count = 0,
+                    rating = 0.0
+                ),
+                info = emptyList(),
+                ingredients = "empty",
+                price = Price(
+                    discount = 0,
+                    price = "empty",
+                    priceWithDiscount = "empty",
+                    unit = "empty"
+                ),
+                subtitle = "empty",
+                tags = emptyList(),
+                title = "empty",
+                image = "empty",
+                isLiked = false,
+                inBasket = false
+            )
+        }
+    }
+}

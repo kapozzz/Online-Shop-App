@@ -20,7 +20,7 @@ class Navigator(
     }
 
     fun navigateToItemDetailScreen(itemID: String) {
-        navController.navigate("${Routes.ItemDetails.BASE_ROUTE}/{$itemID}")
+        navController.navigate("${Routes.ItemDetails.BASE_ROUTE}/$itemID")
     }
 
     fun back() {

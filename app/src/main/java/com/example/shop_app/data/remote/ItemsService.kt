@@ -1,5 +1,6 @@
-package com.example.shop_app.data.remote.dto
+package com.example.shop_app.data.remote
 
+import com.example.shop_app.data.remote.dto.ItemsResponse
 import retrofit2.http.GET
 
 interface ItemsService {

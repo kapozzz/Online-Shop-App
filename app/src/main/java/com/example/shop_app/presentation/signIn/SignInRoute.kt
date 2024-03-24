@@ -20,10 +20,13 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import com.example.shop_app.R
 import com.example.shop_app.core.navigation.LocalNavigator
 import com.example.shop_app.core.navigation.Navigator
@@ -39,18 +42,19 @@ fun SignInRoute(
 ) {
 
     val navigator = LocalNavigator.current
+    val lifecycle = LocalLifecycleOwner.current
 
     LaunchedEffect(true) {
-        effects.collect {
-            handleEffect(it, navigator)
+        lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            effects.collect {
+                handleEffect(it, navigator)
+            }
         }
     }
 
     SignInScreen(state = state, setEvent = setEvent)
 
 }
-
-
 
 @Composable
 private fun SignInScreen(

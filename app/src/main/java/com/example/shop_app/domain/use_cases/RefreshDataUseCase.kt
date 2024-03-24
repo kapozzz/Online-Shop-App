@@ -1,6 +1,6 @@
 package com.example.shop_app.domain.use_cases
 
-import com.example.shop_app.data.remote.dto.ItemsService
+import com.example.shop_app.data.remote.ItemsService
 import com.example.shop_app.data.remote.dto.toItems
 import com.example.shop_app.domain.repositories.ItemsRepository
 import com.example.shop_app.domain.util.Resource

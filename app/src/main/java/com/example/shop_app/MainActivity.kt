@@ -24,6 +24,7 @@ import com.example.shop_app.data.client.dataStore.SettingsDataStore
 import com.example.shop_app.domain.repositories.SignInRepository
 import com.example.shop_app.domain.repositories.UserRepository
 import com.example.shop_app.presentation.item_details.ItemDetailsRoute
+import com.example.shop_app.presentation.item_details.ItemDetailsViewModel
 import com.example.shop_app.presentation.main_screen.MainScreenRoute
 import com.example.shop_app.presentation.main_screen.MainScreenViewModel
 import com.example.shop_app.presentation.signIn.SignInRoute
@@ -98,12 +99,19 @@ private fun AppNavigation(isFirstStart: Boolean) {
         ) {
 
             val itemID = it.arguments?.getString("itemID")
-            Log.d("itemID", "$itemID")
+
+            val itemDetailsViewModel: ItemDetailsViewModel = hiltViewModel()
+
+            itemID?.let {
+                itemDetailsViewModel.setItemID(itemID)
+            } ?: throw IllegalStateException("item id is null")
 
             wrapper.Wrap {
-
-                ItemDetailsRoute()
-
+                ItemDetailsRoute(
+                    state = itemDetailsViewModel.currentState,
+                    setEvent = itemDetailsViewModel::setEvent,
+                    effects = itemDetailsViewModel.effect
+                )
             }
         }
     }
