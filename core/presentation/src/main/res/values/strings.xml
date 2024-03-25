@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">shop-app</string>
+    <string name="registration">Registration</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="enter">Enter</string>
+    <string name="catalog">Catalog</string>
+    <string name="sorting">Sorting</string>
+    <string name="ascending">Ascending</string>
+    <string name="descending">Descending</string>
+    <string name="rating">Rating</string>
+    <string name="no_internet_connection">No internet connection :(</string>
+    <string name="no_products_found">No products found :(</string>
+    <string name="failed_to_load_image">Failed to load image :(</string>
+    <string name="reviews"> reviews</string>
+    <string name="available_for_order">"Available for order - "</string>
+    <string name="hide">Hide</string>
+    <string name="more">More</string>
+    <string name="add_to_cart">Add to cart</string>
+    <string name="characteristics">Characteristics</string>
+    <string name="added_to_cart">Delete from cart</string>
+    <string name="description">Description</string>
+</resources>
