@@ -13,7 +13,7 @@ data class MainScreenState(
     val items: MutableState<List<UiItem>> = mutableStateOf(emptyList()),
     val loading: MutableState<Boolean> = mutableStateOf(false),
     val networkStatus: MutableState<Boolean> = mutableStateOf(true),
-    val searchQuery: MutableStateFlow<SearchQuery> = MutableStateFlow(SearchQuery.getDefault()),
+    val searchQuery: MutableStateFlow<SearchQuery> = MutableStateFlow(SearchQuery.getDefault())
 ): UiState
 
 sealed class MainScreenEvent: UiEvent {
@@ -28,5 +28,6 @@ sealed class MainScreenEvent: UiEvent {
 sealed class MainScreenEffect: UiEffect {
 
     data class OnItemClick(val itemID: String): MainScreenEffect()
+    data class ShowInDialog(val text: String): MainScreenEffect()
 
 }

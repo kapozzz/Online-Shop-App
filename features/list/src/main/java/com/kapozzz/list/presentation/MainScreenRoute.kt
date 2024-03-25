@@ -6,8 +6,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalLifecycleOwner
@@ -21,6 +25,7 @@ import com.kapozzz.list.presentation.components.EmptyListScreen
 import com.kapozzz.list.presentation.components.ItemsScreen
 import com.kapozzz.list.presentation.components.MainScreenTopBar
 import com.kapozzz.list.presentation.components.NoInternetScreen
+import com.kapozzz.presentation.InfoDialog
 import com.kapozzz.ui.ShopAppTheme
 import kotlinx.coroutines.flow.SharedFlow
 
@@ -33,27 +38,19 @@ fun MainScreenRoute(
 
     val navigator = LocalNavigator.current
     val lifecycle = LocalLifecycleOwner.current
+    val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(true) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            effects.collect {
-                handleEffect(it, navigator)
+            effects.collect { effect ->
+                handleEffect(
+                    effect,
+                    navigator,
+                    snackbarHostState
+                )
             }
         }
     }
-
-    MainScreen(
-        state = state,
-        setEvent = setEvent
-    )
-
-}
-
-@Composable
-private fun MainScreen(
-    state: MainScreenState,
-    setEvent: (event: MainScreenEvent) -> Unit
-) {
 
     Scaffold(
         modifier = Modifier
@@ -69,38 +66,66 @@ private fun MainScreen(
                 state = state,
                 setEvent = setEvent
             )
+        },
+        snackbarHost = {
+            SnackbarHost(hostState = snackbarHostState)
         }
-
     ) { paddingValues ->
-
-        Box(
+        MainScreen(
+            state = state,
+            setEvent = setEvent,
             modifier = Modifier
-                .fillMaxSize()
-                .padding(paddingValues),
-            contentAlignment = Alignment.Center
-        ) {
-            when {
-                !state.networkStatus.value -> {
-                    NoInternetScreen()
-                }
-                state.items.value.isEmpty() -> {
-                    EmptyListScreen()
-                }
-                else -> {
-                    ItemsScreen(
-                        state = state,
-                        setEvent = setEvent
-                    )
-                }
+                .padding(
+                    paddingValues
+                )
+        )
+    }
+
+}
+
+@Composable
+private fun MainScreen(
+    state: MainScreenState,
+    setEvent: (event: MainScreenEvent) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        when {
+            !state.networkStatus.value -> {
+                NoInternetScreen()
+            }
+
+            state.items.value.isEmpty() -> {
+                EmptyListScreen()
+            }
+
+            else -> {
+                ItemsScreen(
+                    state = state,
+                    setEvent = setEvent
+                )
             }
         }
     }
+
 }
 
-private fun handleEffect(effect: MainScreenEffect, navigator: Navigator) {
+private suspend fun handleEffect(
+    effect: MainScreenEffect,
+    navigator: Navigator,
+    snackbarHostState: SnackbarHostState
+) {
     when (effect) {
         is MainScreenEffect.OnItemClick -> {
             navigator.navigateToItemDetailScreen(effect.itemID)
+        }
+
+        is MainScreenEffect.ShowInDialog -> {
+            snackbarHostState.showSnackbar(message = effect.text)
         }
     }
 }

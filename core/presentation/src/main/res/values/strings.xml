@@ -20,4 +20,5 @@
     <string name="characteristics">Characteristics</string>
     <string name="added_to_cart">Delete from cart</string>
     <string name="description">Description</string>
+    <string name="close">close</string>
 </resources>

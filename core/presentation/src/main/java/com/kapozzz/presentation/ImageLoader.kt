@@ -20,7 +20,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
 import com.kapozzz.ui.ShopAppType
 
-
 @Composable
 fun ImageLoader(
     model: Any?,

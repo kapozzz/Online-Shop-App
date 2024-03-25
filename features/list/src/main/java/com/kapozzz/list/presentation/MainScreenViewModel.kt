@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.processNextEventInCurrentThread
 import kotlinx.coroutines.withContext
 import java.io.IOException
 import javax.inject.Inject
@@ -115,7 +116,7 @@ class MainScreenViewModel @Inject constructor(
                         .onEach {
 
                             when (it) {
-                                is Resource.Failure -> throw IOException(it.message)
+                                is Resource.Failure -> setEffect(MainScreenEffect.ShowInDialog(it.message.toString()))
                                 is Resource.Loading -> currentState.loading.value = true
                                 is Resource.Success -> currentState.loading.value = false
                             }
