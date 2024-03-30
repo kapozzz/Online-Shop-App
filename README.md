@@ -17,6 +17,7 @@ Description: An Android mobile app that displays a list of various products.
 - Coil
 - Clean architecture
 - Modularization
+- MVI
 
 Important!
 * The app is still in development, further is better.
