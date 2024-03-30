@@ -10,7 +10,7 @@ import com.example.shop_app.navigation.AppNavGraph
 import com.example.shop_app.navigation.NavigationProvider
 import com.kapozzz.client.dataStore.SettingsDataStore
 import com.kapozzz.common.navigation.api.Features
-import com.kapozzz.ui.ShopAppTheme
+import com.kapozzz.ui.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
@@ -34,7 +34,7 @@ class MainActivity : ComponentActivity() {
         }
 
         setContent {
-            ShopAppTheme {
+            AppTheme {
                 Scaffold(
                     bottomBar = {
 

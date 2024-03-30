@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +18,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kapozzz.domain.model.UiItem
-import com.kapozzz.ui.ShopAppType
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 
 @Composable
 fun ItemPrice(
@@ -33,10 +33,10 @@ fun ItemPrice(
     ) {
         Text(
             text = "${item.price.priceWithDiscount}${item.price.unit}",
-            style = ShopAppType.bodyLarge,
-            color = MaterialTheme.colorScheme.onBackground
+            style = AppTypo.bodyLarge,
+            color = AppTheme.colors.onBackground
         )
-        val secondary = MaterialTheme.colorScheme.onBackground
+        val outline = AppTheme.colors.outline
         Text(
             modifier = Modifier
                 .padding(12.dp)
@@ -50,13 +50,13 @@ fun ItemPrice(
                             x = this.size.width,
                             y = 0f
                         ),
-                        color = secondary,
+                        color = outline,
                         strokeWidth = 4f
                     )
                 },
             text = "${item.price.price}${item.price.unit}",
-            style = ShopAppType.bodySmall,
-            color = MaterialTheme.colorScheme.secondary
+            style = AppTypo.bodySmall,
+            color = AppTheme.colors.outline
         )
         Box(
             modifier = Modifier
@@ -64,22 +64,24 @@ fun ItemPrice(
                 .width(34.dp)
                 .height(16.dp)
                 .clip(RoundedCornerShape(8.dp))
-                .background(MaterialTheme.colorScheme.primary),
+                .background(AppTheme.colors.primary),
             contentAlignment = Alignment.Center
         ) {
             Text(
                 text = "-${item.price.discount}%",
-                style = ShopAppType.bodySmall,
-                color = MaterialTheme.colorScheme.onPrimary
+                style = AppTypo.bodySmall,
+                color = AppTheme.colors.onPrimary
             )
         }
     }
 }
 
-//@Composable
-//@Preview
-//private fun ItemPricePreview() {
-//    ItemPrice(
-//        item = fakeItem
-//    )
-//}
+@Composable
+@Preview
+private fun ItemPricePreview() {
+    AppTheme {
+        ItemPrice(
+            item = UiItem.getEmptyItem()
+        )
+    }
+}

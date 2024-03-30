@@ -20,7 +20,6 @@ import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,10 +28,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.kapozzz.domain.model.UiItem
+import com.kapozzz.presentation.ImageLoader
 import com.kapozzz.presentation.R
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 
 @Composable
 fun ItemCard(
@@ -49,7 +52,7 @@ fun ItemCard(
             .width(168.dp)
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.secondaryContainer,
+                color = AppTheme.colors.outline,
                 shape = RoundedCornerShape(8.dp)
             )
             .clickable {
@@ -63,15 +66,14 @@ fun ItemCard(
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(MaterialTheme.colorScheme.background)
+                    .background(AppTheme.colors.container)
             ) {
 
-                AsyncImage(
-                    modifier = Modifier.height(144.dp),
+                ImageLoader(
                     model = item.image,
-                    contentDescription = null,
-                    contentScale = ContentScale.Crop,
-                    alignment = Alignment.Center
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(144.dp)
                 )
 
                 Column(
@@ -84,8 +86,8 @@ fun ItemCard(
                 ) {
                     Text(
                         text = item.price.price,
-                        color = MaterialTheme.colorScheme.secondary,
-                        style = MaterialTheme.typography.titleSmall
+                        color = AppTheme.colors.outline,
+                        style = AppTypo.itemMedium
                     )
                     Row(
                         modifier = Modifier
@@ -96,22 +98,22 @@ fun ItemCard(
                     ) {
                         Text(
                             text = "${item.price.priceWithDiscount} ${item.price.unit}",
-                            style = MaterialTheme.typography.titleMedium,
-                            color = MaterialTheme.colorScheme.onBackground
+                            style = AppTypo.itemLarge,
+                            color = AppTheme.colors.onContainer
                         )
                         Box(
                             modifier = Modifier
                                 .padding(start = 2.dp)
                                 .width(34.dp)
                                 .height(16.dp)
-                                .clip(RoundedCornerShape(8.dp))
-                                .background(MaterialTheme.colorScheme.primary),
+                                .clip(RoundedCornerShape(4.dp))
+                                .background(AppTheme.colors.primary),
                             contentAlignment = Alignment.Center
                         ) {
                             Text(
                                 text = "-${item.price.discount}%",
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.onPrimary
+                                style = AppTypo.itemSmall,
+                                color = AppTheme.colors.onPrimary
                             )
                         }
                     }
@@ -121,15 +123,15 @@ fun ItemCard(
                     modifier = Modifier
                         .padding(start = 6.dp),
                     text = item.title,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = MaterialTheme.colorScheme.onBackground
+                    style = AppTypo.itemLarge,
+                    color = AppTheme.colors.onContainer
                 )
 
                 Row(
                     modifier = Modifier
                         .padding(
                             start = 6.dp,
-                            top = 45.dp
+                            top = 60.dp
                         ),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Start
@@ -144,15 +146,15 @@ fun ItemCard(
                     Text(
                         modifier = Modifier.padding(start = 2.dp),
                         text = "${item.feedback.rating}",
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.tertiary
+                        style = AppTypo.itemMedium,
+                        color = AppTheme.colors.outline
                     )
 
                     Text(
                         modifier = Modifier.padding(start = 2.dp),
                         text = "(${item.feedback.count})",
-                        style = MaterialTheme.typography.titleSmall,
-                        color = MaterialTheme.colorScheme.secondary
+                        style = AppTypo.itemMedium,
+                        color = AppTheme.colors.outline
                     )
                 }
             }
@@ -162,7 +164,7 @@ fun ItemCard(
                     .size(32.dp)
                     .align(Alignment.BottomEnd)
                     .clip(RoundedCornerShape(topStart = 8.dp, bottomEnd = 8.dp))
-                    .background(MaterialTheme.colorScheme.primary),
+                    .background(AppTheme.colors.primary),
                 contentAlignment = Alignment.Center
             ) {
                 IconButton(onClick = { onBasketClick(item) }) {
@@ -170,7 +172,7 @@ fun ItemCard(
                         imageVector = if (!item.inBasket) Icons.Default.Add
                         else Icons.Default.Close,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary
+                        tint = AppTheme.colors.onPrimary
                     )
                 }
             }
@@ -185,18 +187,23 @@ fun ItemCard(
                         else R.drawable.like_icon
                     ),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = AppTheme.colors.primary,
                 )
             }
         }
     }
 }
 
-//@Composable
-//@Preview
-//private fun ItemCardPreview() {
-//    ShopAppTheme {
-//        ItemCard(item = fakeItem, {}, {}, {})
-//    }
-//}
+@Composable
+@Preview
+private fun ItemCardPreview() {
+    AppTheme {
+        ItemCard(
+            item = UiItem.getEmptyItem(),
+            onBasketClick = {},
+            onItemClick = {},
+            onLikeClick = {}
+        )
+    }
+}
 

@@ -12,7 +12,7 @@
     <string name="no_internet_connection">No internet connection :(</string>
     <string name="no_products_found">No products found :(</string>
     <string name="failed_to_load_image">Failed to load image :(</string>
-    <string name="reviews"> reviews</string>
+    <string name="reviews">reviews</string>
     <string name="available_for_order">"Available for order - "</string>
     <string name="hide">Hide</string>
     <string name="more">More</string>

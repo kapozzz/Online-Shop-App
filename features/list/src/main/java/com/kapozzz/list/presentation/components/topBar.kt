@@ -1,10 +1,13 @@
 package com.kapozzz.list.presentation.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -17,7 +20,8 @@ import androidx.compose.ui.unit.dp
 import com.kapozzz.list.presentation.MainScreenEvent
 import com.kapozzz.list.presentation.MainScreenState
 import com.kapozzz.presentation.R
-import com.kapozzz.ui.ShopAppType
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -27,20 +31,20 @@ fun MainScreenTopBar(
     modifier: Modifier = Modifier
 ) {
     TopAppBar(
-        modifier = modifier,
+        modifier = modifier.height(80.dp),
         title = {
             Column(
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxSize()
             ) {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(
-                            bottom = 4.dp,
+                            top = 22.dp,
                         ),
                     text = stringResource(R.string.catalog),
-                    style = ShopAppType.titleLarge,
-                    color = MaterialTheme.colorScheme.onBackground,
+                    style = AppTypo.titleLarge,
+                    color = AppTheme.colors.onBackground,
                     textAlign = TextAlign.Center
                 )
                 SortTypeFilter(
@@ -55,7 +59,7 @@ fun MainScreenTopBar(
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = AppTheme.colors.background
         )
     )
 }

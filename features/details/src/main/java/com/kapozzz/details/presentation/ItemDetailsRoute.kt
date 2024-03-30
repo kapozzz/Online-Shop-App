@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -25,14 +24,15 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.kapozzz.common.LocalNavigator
 import com.kapozzz.common.navigation.Navigator
-import com.kapozzz.presentation.R
 import com.kapozzz.details.presentation.components.AddToCart
 import com.kapozzz.details.presentation.components.ItemDescription
 import com.kapozzz.details.presentation.components.ItemInfoTitle
 import com.kapozzz.details.presentation.components.ItemPrice
 import com.kapozzz.details.presentation.components.ItemRating
 import com.kapozzz.presentation.ImageLoader
-import com.kapozzz.ui.ShopAppType
+import com.kapozzz.presentation.R
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
@@ -53,13 +53,167 @@ fun ItemDetailsRoute(
         }
     }
 
+    ItemDetailsScreen(
+        state = state,
+        setEvent = setEvent
+    )
+}
+
+
+@Composable
+private fun ItemDetailsScreen(
+    state: ItemDetailsState,
+    setEvent: (event: ItemDetailsEvent) -> Unit
+) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(AppTheme.colors.background),
         contentAlignment = Alignment.Center
     ) {
-        ItemDetailsScreen(
-            state = state
-        )
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    horizontal = 20.dp
+                )
+        ) {
+
+            item {
+                ImageLoader(
+                    model = state.item.value.image,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(368.dp)
+                )
+            }
+
+            item {
+                Text(
+                    modifier = Modifier.padding(top = 41.dp),
+                    text = state.item.value.title,
+                    style = AppTypo.bodyMedium,
+                    color = AppTheme.colors.outline
+                )
+            }
+
+            item {
+                Text(
+                    modifier = Modifier.padding(top = 8.dp),
+                    text = state.item.value.subtitle,
+                    style = AppTypo.bodyLarge,
+                    color = AppTheme.colors.onBackground
+                )
+            }
+
+            item {
+                Row(
+                    modifier = Modifier.padding(top = 10.dp),
+                    horizontalArrangement = Arrangement.Start,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(R.string.available_for_order),
+                        style = AppTypo.bodySmall,
+                        color = AppTheme.colors.outline
+                    )
+                    Text(
+                        text = state.item.value.available.toString(),
+                        style = AppTypo.bodySmall,
+                        color = AppTheme.colors.outline
+                    )
+                }
+            }
+
+            item {
+                Spacer(
+                    modifier = Modifier
+                        .height(1.dp)
+                        .background(AppTheme.colors.outline)
+                        .padding(top = 10.dp)
+                )
+            }
+
+            item {
+                ItemRating(
+                    item = state.item.value,
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                )
+            }
+
+            item {
+                ItemPrice(
+                    item = state.item.value,
+                    modifier = Modifier
+                        .padding(start = 4.dp, top = 16.dp)
+                )
+            }
+
+            item {
+                Text(
+                    modifier = Modifier
+                        .padding(top = 24.dp),
+                    text = stringResource(R.string.description),
+                    style = AppTypo.bodyLarge,
+                    color = AppTheme.colors.onBackground
+                )
+            }
+
+            item {
+                // TODO кнопка навигации к бренду
+            }
+
+            item {
+                ItemDescription(
+                    item = state.item.value,
+                    modifier = Modifier.padding(top = 16.dp)
+                )
+            }
+
+            item {
+                Text(
+                    modifier = Modifier
+                        .padding(
+                            top = 34.dp,
+                            bottom = 28.dp
+                        ),
+                    text = stringResource(R.string.characteristics),
+                    style = AppTypo.bodyLarge,
+                    color = AppTheme.colors.onBackground
+                )
+            }
+
+            items(
+                state.item.value.info,
+                key = {
+                    it.title
+                }
+            ) {
+                ItemInfoTitle(
+                    info = it
+                )
+                if (state.item.value.info.last() != it) {
+                    Spacer(
+                        modifier = Modifier
+                            .padding(
+                                top = 4.dp,
+                                bottom = 10.dp
+                            )
+                            .fillMaxWidth()
+                            .height(1.dp)
+                            .background(AppTheme.colors.outline)
+                    )
+                }
+            }
+
+            item {
+                Spacer(
+                    modifier = Modifier
+                        .height(100.dp)
+                )
+            }
+        }
         AddToCart(
             item = state.item.value,
             onClick = {
@@ -76,156 +230,6 @@ fun ItemDetailsRoute(
     }
 }
 
-
-@Composable
-private fun ItemDetailsScreen(
-    state: ItemDetailsState
-) {
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(
-                horizontal = 20.dp
-            )
-    ) {
-
-        item {
-            ImageLoader(
-                model = state.item.value.image,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(368.dp)
-            )
-        }
-
-        item {
-            Text(
-                modifier = Modifier.padding(top = 41.dp),
-                text = state.item.value.title,
-                style = ShopAppType.bodyMedium,
-                color = MaterialTheme.colorScheme.secondary
-            )
-        }
-
-        item {
-            Text(
-                modifier = Modifier.padding(top = 8.dp),
-                text = state.item.value.subtitle,
-                style = ShopAppType.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
-
-        item {
-            Row(
-                modifier = Modifier.padding(top = 10.dp),
-                horizontalArrangement = Arrangement.Start,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = stringResource(R.string.available_for_order),
-                    style = ShopAppType.bodySmall,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-                Text(
-                    text = state.item.value.available.toString(),
-                    style = ShopAppType.bodySmall,
-                    color = MaterialTheme.colorScheme.secondary
-                )
-            }
-        }
-
-        item {
-            Spacer(
-                modifier = Modifier
-                    .height(1.dp)
-                    .background(MaterialTheme.colorScheme.secondary)
-                    .padding(top = 10.dp)
-            )
-        }
-
-        item {
-            ItemRating(
-                item = state.item.value,
-                modifier = Modifier
-                    .padding(top = 10.dp)
-            )
-        }
-
-        item {
-            ItemPrice(
-                item = state.item.value,
-                modifier = Modifier
-                    .padding(start = 4.dp, top = 16.dp)
-            )
-        }
-
-        item {
-            Text(
-                modifier = Modifier
-                    .padding(top = 24.dp),
-                text = stringResource(R.string.description),
-                style = ShopAppType.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
-
-        item {
-            // TODO кнопка навигации к бренду
-        }
-
-        item {
-            ItemDescription(
-                item = state.item.value,
-                modifier = Modifier.padding(top = 16.dp)
-            )
-        }
-
-        item {
-            Text(
-                modifier = Modifier
-                    .padding(
-                        top = 34.dp,
-                        bottom = 28.dp
-                    ),
-                text = stringResource(R.string.characteristics),
-                style = ShopAppType.bodyLarge,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
-
-        items(
-            state.item.value.info,
-            key = {
-                it.title
-            }
-        ) {
-            ItemInfoTitle(
-                info = it
-            )
-            if (state.item.value.info.last() != it) {
-                Spacer(
-                    modifier = Modifier
-                        .padding(
-                            top = 4.dp,
-                            bottom = 10.dp
-                        )
-                        .fillMaxWidth()
-                        .height(1.dp)
-                        .background(MaterialTheme.colorScheme.secondary)
-                )
-            }
-        }
-
-        item {
-            Spacer(
-                modifier = Modifier
-                    .height(100.dp)
-            )
-        }
-    }
-}
-
 private fun handleEffect(effect: ItemDetailsEffect, navigator: Navigator) {
     when (effect) {
         else -> {}
@@ -236,7 +240,8 @@ private fun handleEffect(effect: ItemDetailsEffect, navigator: Navigator) {
 @Preview
 private fun ItemDetailsScreenPreview() {
     ItemDetailsScreen(
-        state = ItemDetailsState()
+        state = ItemDetailsState(),
+        setEvent = {}
     )
 }
 

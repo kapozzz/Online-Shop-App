@@ -13,7 +13,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -22,10 +21,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kapozzz.domain.model.UiItem
 import com.kapozzz.presentation.R
-import com.kapozzz.ui.ShopAppType
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 
 @Composable
 fun AddToCart(
@@ -41,7 +42,7 @@ fun AddToCart(
             .clip(
                 RoundedCornerShape(16.dp)
             )
-            .background(MaterialTheme.colorScheme.primary)
+            .background(AppTheme.colors.primary)
             .clickable {
                 onClick(item)
             },
@@ -58,14 +59,14 @@ fun AddToCart(
                 Text(
                     modifier = Modifier.padding(start = 16.dp),
                     text = stringResource(R.string.added_to_cart),
-                    style = ShopAppType.bodyLarge,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    style = AppTypo.bodyLarge,
+                    color = AppTheme.colors.onPrimary
                 )
                 Icon(
                     modifier = Modifier.padding(end = 16.dp),
                     imageVector = Icons.Default.Close,
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimary
+                    tint = AppTheme.colors.onPrimary
                 )
             } else {
                 Row(
@@ -74,10 +75,10 @@ fun AddToCart(
                 ) {
                     Text(
                         text = "${item.price.priceWithDiscount}${item.price.unit}",
-                        style = ShopAppType.bodyLarge,
-                        color = MaterialTheme.colorScheme.onPrimary
+                        style = AppTypo.bodyLarge,
+                        color = AppTheme.colors.onPrimary
                     )
-                    val secondary = MaterialTheme.colorScheme.secondaryContainer
+                    val secondary = AppTheme.colors.container
                     Text(
                         modifier = Modifier
                             .padding(8.dp)
@@ -96,28 +97,28 @@ fun AddToCart(
                                 )
                             },
                         text = "${item.price.price}${item.price.unit}",
-                        style = ShopAppType.bodySmall,
-                        color = MaterialTheme.colorScheme.secondaryContainer
+                        style = AppTypo.bodySmall,
+                        color = AppTheme.colors.container
                     )
                 }
                 Text(
                     modifier = Modifier.padding(end = 16.dp),
                     text = stringResource(R.string.add_to_cart),
-                    style = ShopAppType.bodyMedium,
-                    color = MaterialTheme.colorScheme.onPrimary
+                    style = AppTypo.bodyMedium,
+                    color = AppTheme.colors.onPrimary
                 )
             }
         }
     }
 }
 
-//@Composable
-//@Preview
-//private fun AddToCardPreview() {
-//    ShopAppTheme {
-//        AddToCart(
-//            item = fakeItem,
-//            onClick = {}
-//        )
-//    }
-//}
+@Composable
+@Preview
+private fun AddToCardPreview() {
+    AppTheme {
+        AddToCart(
+            item = UiItem.getEmptyItem(),
+            onClick = {}
+        )
+    }
+}

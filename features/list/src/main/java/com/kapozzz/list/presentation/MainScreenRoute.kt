@@ -4,9 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
@@ -25,8 +23,7 @@ import com.kapozzz.list.presentation.components.EmptyListScreen
 import com.kapozzz.list.presentation.components.ItemsScreen
 import com.kapozzz.list.presentation.components.MainScreenTopBar
 import com.kapozzz.list.presentation.components.NoInternetScreen
-import com.kapozzz.presentation.InfoDialog
-import com.kapozzz.ui.ShopAppTheme
+import com.kapozzz.ui.AppTheme
 import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
@@ -55,14 +52,9 @@ fun MainScreenRoute(
     Scaffold(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background),
+            .background(AppTheme.colors.background),
         topBar = {
             MainScreenTopBar(
-                modifier = Modifier
-                    .padding(
-                        vertical = 8.dp
-
-                    ),
                 state = state,
                 setEvent = setEvent
             )
@@ -91,7 +83,8 @@ private fun MainScreen(
 ) {
     Box(
         modifier = modifier
-            .fillMaxSize(),
+            .fillMaxSize()
+            .background(AppTheme.colors.background),
         contentAlignment = Alignment.Center
     ) {
         when {
@@ -133,7 +126,7 @@ private suspend fun handleEffect(
 @Composable
 @Preview
 private fun MainScreenPreview() {
-    ShopAppTheme {
+    AppTheme {
         MainScreen(state = MainScreenState(), {})
     }
 }

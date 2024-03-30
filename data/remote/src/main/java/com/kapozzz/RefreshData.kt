@@ -7,12 +7,13 @@ import com.kapozzz.remote.ItemsService
 import com.kapozzz.remote.dto.toItems
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okio.IOException
 import javax.inject.Inject
 
 class RefreshDataRepositoryImpl @Inject constructor(
     private val itemsRepository: ItemsRepository,
     private val itemsService: ItemsService
-): RefreshDataRepository {
+) : RefreshDataRepository {
     override fun refresh(): Flow<Resource<Unit>> = flow {
         try {
 
@@ -25,6 +26,7 @@ class RefreshDataRepositoryImpl @Inject constructor(
 
         } catch (e: Exception) {
 
+            itemsRepository.addItems(mock_items) // run.mocky.io API больше не работает :(
             emit(Resource.Failure(e.message))
 
         }

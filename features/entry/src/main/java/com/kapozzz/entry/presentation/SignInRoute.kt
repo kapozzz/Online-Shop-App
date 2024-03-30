@@ -29,7 +29,8 @@ import com.kapozzz.common.LocalNavigator
 import com.kapozzz.presentation.R
 import com.kapozzz.common.navigation.Navigator
 import com.kapozzz.entry.presentation.components.SignInTextField
-import com.kapozzz.ui.ShopAppTheme
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 import kotlinx.coroutines.flow.SharedFlow
 
 @Composable
@@ -63,7 +64,7 @@ private fun SignInScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(MaterialTheme.colorScheme.background)
+            .background(AppTheme.colors.background)
     ) {
 
         Column(
@@ -81,9 +82,9 @@ private fun SignInScreen(
                         bottom = 56.dp
                     ),
                 text = stringResource(R.string.registration),
-                style = MaterialTheme.typography.titleLarge,
+                style = AppTypo.titleLarge,
                 textAlign = TextAlign.Start,
-                color = MaterialTheme.colorScheme.onBackground
+                color = AppTheme.colors.onBackground
             )
 
             SignInTextField(
@@ -113,11 +114,11 @@ private fun SignInScreen(
                     .background(
                         if (state.name.value.isNotEmpty() &&
                             state.surname.value.isNotEmpty()
-                        ) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.secondaryContainer
+                        ) AppTheme.colors.primary
+                        else AppTheme.colors.secondary
                     )
                     .border(
-                        color = MaterialTheme.colorScheme.outline,
+                        color = AppTheme.colors.outline,
                         width = 1.dp,
                         shape = RoundedCornerShape(16.dp)
                     )
@@ -133,9 +134,9 @@ private fun SignInScreen(
                     text = stringResource(R.string.enter),
                     color = if (state.name.value.isNotEmpty() &&
                         state.surname.value.isNotEmpty()
-                    ) MaterialTheme.colorScheme.onPrimary
-                    else MaterialTheme.colorScheme.secondary,
-                    style = MaterialTheme.typography.bodySmall
+                    ) AppTheme.colors.onPrimary
+                    else AppTheme.colors.onPrimary,
+                    style = AppTypo.bodySmall
                 )
             }
         }
@@ -154,7 +155,7 @@ private fun handleEffect(effect: SignInEffect, navigator: Navigator) {
 @Composable
 @Preview
 private fun SignInScreenPreview() {
-    ShopAppTheme {
+    AppTheme {
         SignInScreen(
             state = SignInState(),
             setEvent = {}

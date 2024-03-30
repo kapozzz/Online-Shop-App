@@ -17,7 +17,6 @@ import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -27,10 +26,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kapozzz.domain.model.SortType
 import com.kapozzz.presentation.R
-import com.kapozzz.ui.ShopAppType
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 
 @Composable
 fun SortTypeFilter(
@@ -59,15 +60,15 @@ fun SortTypeFilter(
                     .padding(end = 4.dp),
                 painter = painterResource(id = R.drawable.sort_type_icon),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = AppTheme.colors.onBackground
             )
 
             Text(
                 modifier = Modifier
                     .padding(end = 4.dp),
                 text = stringResource(R.string.sorting),
-                style = ShopAppType.titleMediumBold,
-                color = MaterialTheme.colorScheme.onBackground
+                style = AppTypo.titleMediumBold,
+                color = AppTheme.colors.onBackground
             )
 
             Icon(
@@ -82,8 +83,8 @@ fun SortTypeFilter(
 
         DropdownMenu(
             modifier = Modifier
-                .background(MaterialTheme.colorScheme.background)
-                .border(width = 1.dp, color = MaterialTheme.colorScheme.secondaryContainer),
+                .background(AppTheme.colors.background)
+                .border(width = 1.dp, color = AppTheme.colors.outline),
             expanded = expanded.value,
             onDismissRequest = { expanded.value = false }
         ) {
@@ -134,15 +135,18 @@ private fun SortTypeItem(
             .clip(RoundedCornerShape(8.dp))
             .clickable { onClick(type) },
         text = name,
-        style = if (enabled) ShopAppType.titleMediumBold else ShopAppType.titleMedium,
-        color = MaterialTheme.colorScheme.onBackground
+        style = if (enabled) AppTypo.titleMediumBold else AppTypo.titleMedium,
+        color = AppTheme.colors.onBackground
     )
 }
 
-//@Composable
-//@Preview
-//private fun FilterPreview() {
-//    ShopAppTheme {
-//        SortTypeFilter(onSortTypeChanged = {})
-//    }
-//}
+@Composable
+@Preview
+private fun FilterPreview() {
+    AppTheme {
+        SortTypeFilter(
+            type = SortType.ByRating,
+            onSortTypeChanged = {}
+        )
+    }
+}

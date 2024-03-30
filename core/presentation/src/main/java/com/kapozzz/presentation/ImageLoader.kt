@@ -18,7 +18,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import coil.compose.AsyncImage
-import com.kapozzz.ui.ShopAppType
+import com.kapozzz.ui.AppTypo
 
 @Composable
 fun ImageLoader(
@@ -44,7 +44,7 @@ fun ImageLoader(
                 .fillMaxSize(),
             model = model,
             contentDescription = null,
-            contentScale = ContentScale.Crop,
+            contentScale = ContentScale.Fit,
             alignment = Alignment.Center,
             onLoading = {
                 isLoading.value = true
@@ -71,7 +71,7 @@ fun ImageLoader(
                     )
                     Text(
                         text = stringResource(R.string.failed_to_load_image),
-                        style = ShopAppType.titleMedium
+                        style = AppTypo.titleMedium
                     )
                 }
 

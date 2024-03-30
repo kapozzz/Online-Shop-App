@@ -7,7 +7,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
@@ -17,7 +16,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kapozzz.ui.ShopAppTheme
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 
 @Composable
 fun SignInTextField(
@@ -35,21 +35,21 @@ fun SignInTextField(
             .height(50.dp)
             .clip(RoundedCornerShape(16.dp)),
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            errorContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            focusedContainerColor = AppTheme.colors.container,
+            unfocusedContainerColor = AppTheme.colors.container,
+            errorContainerColor = AppTheme.colors.container,
             disabledIndicatorColor = Color.Transparent,
             errorIndicatorColor = Color.Transparent,
             focusedIndicatorColor = Color.Transparent,
             unfocusedIndicatorColor = Color.Transparent,
-            focusedTextColor = MaterialTheme.colorScheme.onBackground,
-            unfocusedLabelColor = MaterialTheme.colorScheme.onBackground,
+            focusedTextColor = AppTheme.colors.onContainer,
+            unfocusedLabelColor = AppTheme.colors.onContainer,
         ),
         placeholder = {
             Text(
                 text = name,
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.secondary
+                style = AppTypo.bodySmall,
+                color = AppTheme.colors.onContainer
             )
         },
         trailingIcon = {
@@ -60,7 +60,7 @@ fun SignInTextField(
                     Icon(
                         imageVector = Icons.Default.Close,
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.secondary
+                        tint = AppTheme.colors.onContainer
                     )
                 }
             }
@@ -71,11 +71,11 @@ fun SignInTextField(
 @Composable
 @Preview
 private fun SignInTextFieldPreview() {
-    ShopAppTheme {
+    AppTheme {
         SignInTextField(
             value = "",
             onValueChange = {},
-            name = "Name"
+            name = ""
         )
     }
 }

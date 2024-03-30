@@ -6,17 +6,18 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.kapozzz.presentation.R
 import com.kapozzz.domain.model.UiItem
-import com.kapozzz.ui.ShopAppType
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 
 @Composable
 fun ItemDescription(
@@ -37,8 +38,8 @@ fun ItemDescription(
                         .fillMaxWidth()
                         .animateContentSize(),
                     text = if (expanded.value) item.description else "${item.description.take(100)} ...",
-                    style = ShopAppType.bodySmall,
-                    color = MaterialTheme.colorScheme.onBackground
+                    style = AppTypo.bodySmall,
+                    color = AppTheme.colors.onBackground
                 )
                 Text(
                     modifier = Modifier
@@ -48,8 +49,8 @@ fun ItemDescription(
                         },
                     text = if (expanded.value) stringResource(R.string.hide)
                     else stringResource(R.string.more),
-                    style = ShopAppType.bodySmall,
-                    color = MaterialTheme.colorScheme.secondary
+                    style = AppTypo.bodySmall,
+                    color = AppTheme.colors.outline
                 )
             }
         } else {
@@ -57,9 +58,15 @@ fun ItemDescription(
                 modifier = Modifier
                     .fillMaxWidth(),
                 text = item.description,
-                style = ShopAppType.bodySmall,
-                color = MaterialTheme.colorScheme.onBackground
+                style = AppTypo.bodySmall,
+                color = AppTheme.colors.onBackground
             )
         }
     }
+}
+
+@Composable
+@Preview
+private fun ItemDescriptionPreview() {
+    ItemDescription(item = UiItem.getEmptyItem())
 }

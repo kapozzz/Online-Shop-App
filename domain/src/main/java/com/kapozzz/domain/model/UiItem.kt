@@ -25,7 +25,12 @@ data class UiItem(
                     count = 0,
                     rating = 0.0
                 ),
-                info = emptyList(),
+                info = listOf(
+                    Info(
+                        title = "empty",
+                        value = "empty"
+                    )
+                ),
                 ingredients = "empty",
                 price = Price(
                     discount = 0,

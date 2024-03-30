@@ -1,8 +1,10 @@
 package com.kapozzz.list.presentation
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.kapozzz.common.common.BaseViewModel
 import com.example.shop_app.domain.util.Resource
+import com.google.gson.Gson
 import com.kapozzz.common.connectivity.ConnectivityObserver
 import com.kapozzz.common.connectivity.NetworkConnectivityObserver
 import com.kapozzz.domain.model.UiItem
@@ -18,9 +20,7 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.processNextEventInCurrentThread
 import kotlinx.coroutines.withContext
-import java.io.IOException
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,6 +34,8 @@ class MainScreenViewModel @Inject constructor(
     private var job: Job? = null
 
     override fun createInitialState(): MainScreenState {
+        val item = Gson().toJson(UiItem.getEmptyItem())
+        Log.i("Class", "$item")
         return MainScreenState()
     }
 
@@ -116,7 +118,11 @@ class MainScreenViewModel @Inject constructor(
                         .onEach {
 
                             when (it) {
-                                is Resource.Failure -> setEffect(MainScreenEffect.ShowInDialog(it.message.toString()))
+                                is Resource.Failure -> {
+                                    setEffect(MainScreenEffect.ShowInDialog(it.message.toString()))
+                                    currentState.serverError.value = true
+                                    currentState.loading.value = false
+                                }
                                 is Resource.Loading -> currentState.loading.value = true
                                 is Resource.Success -> currentState.loading.value = false
                             }

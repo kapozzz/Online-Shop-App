@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -12,10 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.kapozzz.presentation.R
+import com.kapozzz.domain.model.Feedback
 import com.kapozzz.domain.model.UiItem
-import com.kapozzz.ui.ShopAppType
+import com.kapozzz.presentation.R
+import com.kapozzz.ui.AppTheme
+import com.kapozzz.ui.AppTypo
 
 @Composable
 fun ItemRating(
@@ -50,21 +52,26 @@ fun ItemRating(
         }
         Text(
             text = "${item.feedback.rating} - ${item.feedback.count}",
-            style = ShopAppType.bodySmall,
-            color = MaterialTheme.colorScheme.secondary
+            style = AppTypo.bodySmall,
+            color = AppTheme.colors.outline
         )
         Text(
             text = stringResource(R.string.reviews),
-            style = ShopAppType.bodySmall,
-            color = MaterialTheme.colorScheme.secondary
+            style = AppTypo.bodySmall,
+            color = AppTheme.colors.outline
         )
     }
 }
 
-//@Composable
-//@Preview
-//private fun ItemRatingPreview() {
-//    ItemRating(
-//        item = fakeItem
-//    )
-//}
+@Composable
+@Preview
+private fun ItemRatingPreview() {
+    ItemRating(
+        item = UiItem.getEmptyItem().copy(
+            feedback = Feedback(
+                count = 196,
+                rating = 3.5
+            )
+        )
+    )
+}

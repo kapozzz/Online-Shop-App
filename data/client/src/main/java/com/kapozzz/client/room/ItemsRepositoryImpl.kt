@@ -15,11 +15,14 @@ class ItemsRepositoryImpl @Inject constructor(
 ) : ItemsRepository {
 
     override suspend fun getItems(): Flow<List<UiItem>> {
-        return itemsDatabase.itemsDao().getAllItems().map { items ->
-            items.map { item ->
-                item.toUI()
+        return itemsDatabase
+            .itemsDao()
+            .getAllItems()
+            .map { items ->
+                items.map { item ->
+                    item.toUI()
+                }
             }
-        }
     }
 
     override suspend fun getItemById(id: String): Flow<UiItem> {

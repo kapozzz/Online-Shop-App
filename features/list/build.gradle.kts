@@ -68,6 +68,9 @@ dependencies {
     // Swipe to refresh lib
     implementation(libs.accompanist.swiperefresh)
 
+    // Gson
+    implementation(libs.converter.gson)
+
     implementation(project(":domain"))
     implementation(project(":core:presentation"))
     implementation(project(":core:common"))

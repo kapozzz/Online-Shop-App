@@ -13,7 +13,9 @@ data class MainScreenState(
     val items: MutableState<List<UiItem>> = mutableStateOf(emptyList()),
     val loading: MutableState<Boolean> = mutableStateOf(false),
     val networkStatus: MutableState<Boolean> = mutableStateOf(true),
-    val searchQuery: MutableStateFlow<SearchQuery> = MutableStateFlow(SearchQuery.getDefault())
+    val searchQuery: MutableStateFlow<SearchQuery> = MutableStateFlow(SearchQuery.getDefault()),
+    val serverError: MutableState<Boolean> = mutableStateOf(false),
+    val panelIsVisible: MutableState<Boolean> = mutableStateOf(true)
 ): UiState
 
 sealed class MainScreenEvent: UiEvent {
