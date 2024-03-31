@@ -1,9 +1,9 @@
 <div id="header" align="center">
-  <img src="Screenshot 2024-03-31 233420.png" align="start"
+  <img src="screenshots/Screenshot2024-03-31233420.png" align="start"
 width="200"
     hspace="10" vspace="10">
   <img src="screenshots/item_details_screen.png" align="start"
-width="192"
+width="200"
     hspace="10" vspace="10">
 </div>
 
