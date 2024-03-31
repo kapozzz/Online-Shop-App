@@ -210,7 +210,7 @@ private fun ItemDetailsScreen(
             item {
                 Spacer(
                     modifier = Modifier
-                        .height(100.dp)
+                        .height(200.dp)
                 )
             }
         }
@@ -224,7 +224,7 @@ private fun ItemDetailsScreen(
                 .padding(
                     start = 16.dp,
                     end = 16.dp,
-                    bottom = 8.dp
+                    bottom = 68.dp
                 )
         )
     }

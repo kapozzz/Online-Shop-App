@@ -5,7 +5,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.kapozzz.common.extentions.wrap
 import com.kapozzz.common.navigation.api.FeatureApi
 import com.kapozzz.common.navigation.api.Features
 import com.kapozzz.list.presentation.MainScreenRoute
@@ -21,14 +20,12 @@ internal object InternalListFeatureApi : FeatureApi {
             route = Features.List.NESTED_ROUTE
         ) {
             composable(Features.List.SCREEN_ROUTE) {
-                wrap(navController = navController) {
-                    val mainScreenViewModel: MainScreenViewModel = hiltViewModel()
-                    MainScreenRoute(
-                        state = mainScreenViewModel.currentState,
-                        effects = mainScreenViewModel.effect,
-                        setEvent = mainScreenViewModel::setEvent
-                    )
-                }
+                val mainScreenViewModel: MainScreenViewModel = hiltViewModel()
+                MainScreenRoute(
+                    state = mainScreenViewModel.currentState,
+                    effects = mainScreenViewModel.effect,
+                    setEvent = mainScreenViewModel::setEvent
+                )
             }
         }
     }

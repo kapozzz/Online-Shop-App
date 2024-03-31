@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import com.kapozzz.common.LocalNavigator
+import com.kapozzz.common.LocalSnackbarHost
 import com.kapozzz.common.navigation.Navigator
 import com.kapozzz.list.presentation.components.EmptyListScreen
 import com.kapozzz.list.presentation.components.ItemsScreen
@@ -35,7 +36,7 @@ fun MainScreenRoute(
 
     val navigator = LocalNavigator.current
     val lifecycle = LocalLifecycleOwner.current
-    val snackbarHostState = remember { SnackbarHostState() }
+    val snackbarHostState = LocalSnackbarHost.current
 
     LaunchedEffect(true) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -58,9 +59,6 @@ fun MainScreenRoute(
                 state = state,
                 setEvent = setEvent
             )
-        },
-        snackbarHost = {
-            SnackbarHost(hostState = snackbarHostState)
         }
     ) { paddingValues ->
         MainScreen(

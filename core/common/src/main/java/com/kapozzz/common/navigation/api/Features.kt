@@ -26,5 +26,19 @@ object Features {
         const val ARGS = "/{itemID}"
 
     }
+    object Profile {
+
+        const val NESTED_ROUTE = "profile_nested_route"
+
+        const val SCREEN_ROUTE = "profile_screen_route"
+
+    }
+    object Cart {
+
+        const val NESTED_ROUTE = "cart_nested_route"
+
+        const val SCREEN_ROUTE = "cart_screen_route"
+
+    }
 }
 

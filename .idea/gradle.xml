@@ -19,9 +19,11 @@
             <option value="$PROJECT_DIR$/data/remote" />
             <option value="$PROJECT_DIR$/domain" />
             <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/cart" />
             <option value="$PROJECT_DIR$/features/details" />
             <option value="$PROJECT_DIR$/features/entry" />
             <option value="$PROJECT_DIR$/features/list" />
+            <option value="$PROJECT_DIR$/features/profile" />
           </set>
         </option>
         <option name="resolveExternalAnnotations" value="false" />

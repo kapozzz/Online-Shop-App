@@ -4,12 +4,8 @@ import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.material3.Scaffold
-import androidx.navigation.compose.rememberNavController
-import com.example.shop_app.navigation.AppNavGraph
 import com.example.shop_app.navigation.NavigationProvider
 import com.kapozzz.client.dataStore.SettingsDataStore
-import com.kapozzz.common.navigation.api.Features
 import com.kapozzz.ui.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.runBlocking
@@ -35,23 +31,10 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             AppTheme {
-                Scaffold(
-                    bottomBar = {
-
-                    }
-                ) {
-
-                    val startDestination =
-                        if (isFirstStart) Features.Entry.NESTED_ROUTE else Features.List.NESTED_ROUTE
-
-                    val navController = rememberNavController()
-
-                    AppNavGraph(
-                        navController = navController,
-                        navigationProvider = navigationProvider,
-                        startDestination = startDestination
-                    )
-                }
+                RootScreen(
+                    isFirstStart = isFirstStart,
+                    navigationProvider = navigationProvider
+                )
             }
         }
     }

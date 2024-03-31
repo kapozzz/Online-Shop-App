@@ -28,6 +28,13 @@ fun AppNavGraph(
             navController, this
         )
 
-    }
+        navigationProvider.profile.registerGraph(
+            navController, this
+        )
 
+        navigationProvider.cart.registerGraph(
+            navController, this
+        )
+
+    }
 }
