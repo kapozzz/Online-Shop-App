@@ -1,9 +1,9 @@
 <div id="header" align="center">
-  <img src="screenshots/main_screen.png" align="start"
+  <img src="screenshots/item_list_screen.png" align="start"
 width="200"
     hspace="10" vspace="10">
-  <img src="screenshots/item_details_screenshot.png" align="start"
-width="200"
+  <img src="screenshots/item_details_screen.png" align="start"
+width="192"
     hspace="10" vspace="10">
 </div>
 
@@ -17,6 +17,8 @@ Description: An Android mobile app that displays a list of various products.
 - Coil
 - Clean architecture
 - Modularization
+- MVI
 
-P.S. The app is still in development, further is better.
-P.S.S The server is giving 503 error, the list is not displayed yet. It will be fixed soon.
+Important!
+* The app is still in development, further is better.
+* The server is giving 503 error, the list is not displayed yet. It will be fixed soon.
