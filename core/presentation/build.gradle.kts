@@ -58,5 +58,7 @@ dependencies {
     implementation(libs.coil.compose)
 
     implementation(project(":core:ui"))
+    implementation(project(":domain"))
+
 
 }

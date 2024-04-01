@@ -39,6 +39,10 @@ class ItemsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getLikedItemsCount(): Flow<Int> {
+        return itemsDatabase.itemsDao().getLikedItemsCount()
+    }
+
     override suspend fun getItemsInBasket(): Flow<List<UiItem>> {
         return itemsDatabase.itemsDao().getItemsInBasket().map { items ->
             items.map { item ->

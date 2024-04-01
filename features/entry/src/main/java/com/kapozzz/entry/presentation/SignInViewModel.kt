@@ -3,14 +3,14 @@ package com.kapozzz.entry.presentation
 import androidx.lifecycle.viewModelScope
 import com.kapozzz.common.common.BaseViewModel
 import com.kapozzz.domain.model.User
-import com.kapozzz.domain.repositories.SignInRepository
+import com.kapozzz.domain.repositories.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInViewModel @Inject constructor(
-    private val signInRepository: SignInRepository
+    private val userRepository: UserRepository
 ) : BaseViewModel<SignInEvent, SignInState, SignInEffect>() {
 
     override fun createInitialState(): SignInState {
@@ -32,7 +32,7 @@ class SignInViewModel @Inject constructor(
             mobilePhone = currentState.mobilePhone.value
         )
         viewModelScope.launch {
-            signInRepository.saveUser(user)
+            userRepository.saveUser(user)
             setEffect(SignInEffect.UserDataIsValidated)
         }
     }

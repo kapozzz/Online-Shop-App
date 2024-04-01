@@ -15,7 +15,13 @@ class SettingsDataStore(
     private val context: Context
 ) {
 
-    val Context.settingsDataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+    private val Context.settingsDataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+    suspend fun exit() {
+        context.settingsDataStore.edit { settings ->
+            settings[isFirstStart] = true
+        }
+    }
 
     suspend fun itStarted() {
         context.settingsDataStore.edit { settings ->

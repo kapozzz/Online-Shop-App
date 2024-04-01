@@ -60,7 +60,9 @@ fun RootScreen(
                     val currentDestination = navBackStackEntry?.destination
                     screens.forEach { screen ->
                         val selected =
-                            currentDestination?.hierarchy?.any { it.route == screen.route } == true
+                            currentDestination?.hierarchy?.any {
+                                it.route == screen.route || it.route == screen.secondRoute
+                            } == true
                         BottomNavigationItem(
                             modifier = Modifier
                                 .background(AppTheme.colors.container),

@@ -19,6 +19,9 @@ interface ItemsDao {
     @Query("SELECT * FROM items WHERE isLiked = 1")
     fun getLikedItems(): Flow<List<DataItem>>
 
+    @Query("SELECT COUNT(*) FROM items WHERE isLiked = 1")
+    fun getLikedItemsCount(): Flow<Int>
+
     @Query("SELECT * FROM items WHERE inBasket = 1")
     fun getItemsInBasket(): Flow<List<DataItem>>
 

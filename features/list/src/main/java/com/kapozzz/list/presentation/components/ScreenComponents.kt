@@ -34,6 +34,7 @@ import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.kapozzz.list.presentation.MainScreenEvent
 import com.kapozzz.list.presentation.MainScreenState
+import com.kapozzz.presentation.ItemCard
 import com.kapozzz.presentation.R
 import com.kapozzz.ui.AppTheme
 import com.kapozzz.ui.AppTypo

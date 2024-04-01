@@ -1,5 +1,6 @@
-package com.kapozzz.list.presentation.components
+package com.kapozzz.presentation
 
+import androidx.compose.animation.AnimatedContent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -25,12 +26,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
 import com.kapozzz.domain.model.UiItem
 import com.kapozzz.presentation.ImageLoader
 import com.kapozzz.presentation.R
@@ -45,7 +46,6 @@ fun ItemCard(
     onItemClick: (item: UiItem) -> Unit,
     modifier: Modifier = Modifier
 ) {
-
     Card(
         modifier = modifier
             .height(286.dp)
@@ -60,7 +60,6 @@ fun ItemCard(
             },
         shape = RoundedCornerShape(8.dp)
     ) {
-
         Box(modifier = Modifier.fillMaxSize()) {
 
             Column(
@@ -84,7 +83,17 @@ fun ItemCard(
                             start = 6.dp
                         )
                 ) {
+                    val outline = AppTheme.colors.onContainer
                     Text(
+                        modifier = Modifier
+                            .padding(top = 8.dp)
+                            .drawBehind {
+                                drawLine(
+                                    color = outline,
+                                    start = Offset(0f, this.size.height),
+                                    end = Offset(this.size.width, 0f)
+                                )
+                            },
                         text = item.price.price,
                         color = AppTheme.colors.outline,
                         style = AppTypo.itemMedium
@@ -159,6 +168,10 @@ fun ItemCard(
                 }
             }
 
+            val addId = if (!item.inBasket) Icons.Default.Add
+            else Icons.Default.Close
+
+
             Box(
                 modifier = Modifier
                     .size(32.dp)
@@ -167,28 +180,37 @@ fun ItemCard(
                     .background(AppTheme.colors.primary),
                 contentAlignment = Alignment.Center
             ) {
-                IconButton(onClick = { onBasketClick(item) }) {
-                    Icon(
-                        imageVector = if (!item.inBasket) Icons.Default.Add
-                        else Icons.Default.Close,
-                        contentDescription = null,
-                        tint = AppTheme.colors.onPrimary
-                    )
+                AnimatedContent(targetState = addId, label = "") {
+                    IconButton(onClick = { onBasketClick(item) }) {
+                        Icon(
+                            imageVector = it,
+                            contentDescription = null,
+                            tint = AppTheme.colors.onPrimary
+                        )
+                    }
                 }
             }
 
-            IconButton(
-                modifier = Modifier.align(Alignment.TopEnd),
-                onClick = { onLikeClick(item) }
+
+            val heartId = if (item.isLiked) R.drawable.liked_icon
+            else R.drawable.like_icon
+
+            AnimatedContent(
+                targetState = heartId,
+                modifier = Modifier.align(Alignment.TopEnd)
             ) {
-                Icon(
-                    painter = painterResource(
-                        id = if (item.isLiked) R.drawable.liked_icon
-                        else R.drawable.like_icon
-                    ),
-                    contentDescription = null,
-                    tint = AppTheme.colors.primary,
-                )
+                IconButton(
+
+                    onClick = { onLikeClick(item) }
+                ) {
+                    Icon(
+                        painter = painterResource(
+                            it
+                        ),
+                        contentDescription = null,
+                        tint = AppTheme.colors.primary,
+                    )
+                }
             }
         }
     }

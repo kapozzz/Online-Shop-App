@@ -3,12 +3,12 @@ package com.kapozzz.di
 import android.content.Context
 import androidx.room.Room
 import com.kapozzz.client.dataStore.SettingsDataStore
-import com.kapozzz.client.dataStore.SignInRepositoryImpl
+import com.kapozzz.client.dataStore.UserRepositoryImpl
 import com.kapozzz.client.dataStore.UserDataStore
 import com.kapozzz.client.room.ItemsDatabase
 import com.kapozzz.client.room.ItemsRepositoryImpl
 import com.kapozzz.domain.repositories.ItemsRepository
-import com.kapozzz.domain.repositories.SignInRepository
+import com.kapozzz.domain.repositories.UserRepository
 import com.kapozzz.util.ITEMS_DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -52,7 +52,7 @@ object ClientModule {
     }
 
     @Provides
-    fun provideSignInRepository(repo: SignInRepositoryImpl): SignInRepository {
+    fun provideSignInRepository(repo: UserRepositoryImpl): UserRepository {
         return repo
     }
 

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="profile">Profile</string>
+    <string name="liked">Liked</string>
+    <string name="support">Support</string>
+    <string name="exit">Exit</string>
+    <string name="liked_items">Liked items</string>
+</resources>

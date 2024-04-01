@@ -12,10 +12,12 @@ import com.kapozzz.common.navigation.api.Features
 sealed class BottomBarScreen(
     val route: String,
     val icon: ImageVector,
-    @StringRes val resourceId: Int
+    @StringRes val resourceId: Int,
+    val secondRoute: String = "empty"
 ) {
     data object List : BottomBarScreen(
         route = Features.List.NESTED_ROUTE,
+        secondRoute = Features.Details.NESTED_ROUTE,
         icon = Icons.Default.Menu,
         resourceId = R.string.products
     )

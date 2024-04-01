@@ -32,6 +32,10 @@ object Features {
 
         const val SCREEN_ROUTE = "profile_screen_route"
 
+        object Liked {
+            const val SCREEN_ROUTE = "liked_screen_route"
+        }
+
     }
     object Cart {
 

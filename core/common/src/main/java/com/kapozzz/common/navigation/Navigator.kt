@@ -27,4 +27,8 @@ class Navigator(
         navController.popBackStack()
     }
 
+    fun navigateToLikedScreen() {
+        navController.navigate(Features.Profile.Liked.SCREEN_ROUTE)
+    }
+
 }
