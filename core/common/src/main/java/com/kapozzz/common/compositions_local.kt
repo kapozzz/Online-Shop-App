@@ -11,3 +11,7 @@ val LocalNavigator = staticCompositionLocalOf<Navigator> {
 val LocalSnackbarHost = staticCompositionLocalOf<SnackbarHostState> {
     error("snackbar host not found")
 }
+
+val LocalBottomBarState = staticCompositionLocalOf<BottomBarState> {
+    error("topBarState not found")
+}

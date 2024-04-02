@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.kapozzz.common.LocalBottomBarState
 import com.kapozzz.common.LocalNavigator
 import com.kapozzz.common.navigation.Navigator
 import com.kapozzz.details.presentation.components.AddToCart

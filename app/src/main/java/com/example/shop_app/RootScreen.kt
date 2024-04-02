@@ -12,6 +12,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -21,6 +22,8 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.shop_app.navigation.AppNavGraph
 import com.example.shop_app.navigation.NavigationProvider
+import com.kapozzz.common.BottomBarState
+import com.kapozzz.common.LocalBottomBarState
 import com.kapozzz.common.LocalNavigator
 import com.kapozzz.common.LocalSnackbarHost
 import com.kapozzz.common.navigation.BottomBarScreen
@@ -46,47 +49,54 @@ fun RootScreen(
 
     val navController = rememberNavController()
 
+    val bottomBarState = remember {
+        BottomBarState()
+    }
+
     val navigator = Navigator(navController)
     val snackbarHostState = remember { SnackbarHostState() }
 
     CompositionLocalProvider(
         LocalNavigator provides navigator,
-        LocalSnackbarHost provides snackbarHostState
+        LocalSnackbarHost provides snackbarHostState,
+        LocalBottomBarState provides bottomBarState
     ) {
         Scaffold(
             bottomBar = {
-                BottomNavigation {
-                    val navBackStackEntry by navController.currentBackStackEntryAsState()
-                    val currentDestination = navBackStackEntry?.destination
-                    screens.forEach { screen ->
-                        val selected =
-                            currentDestination?.hierarchy?.any {
-                                it.route == screen.route || it.route == screen.secondRoute
-                            } == true
-                        BottomNavigationItem(
-                            modifier = Modifier
-                                .background(AppTheme.colors.container),
-                            selected = selected,
-                            onClick = {
-                                navController.navigate(screen.route) {
-                                    popUpTo(navController.graph.findStartDestination().id) {
-                                        saveState = true
+                if (bottomBarState.isVisible.value) {
+                    BottomNavigation {
+                        val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        val currentDestination = navBackStackEntry?.destination
+                        screens.forEach { screen ->
+                            val selected =
+                                currentDestination?.hierarchy?.any {
+                                    it.route == screen.route || it.route == screen.secondRoute
+                                } == true
+                            BottomNavigationItem(
+                                modifier = Modifier
+                                    .background(AppTheme.colors.container),
+                                selected = selected,
+                                onClick = {
+                                    navController.navigate(screen.route) {
+                                        popUpTo(navController.graph.findStartDestination().id) {
+                                            saveState = true
+                                        }
+                                        launchSingleTop = true
+                                        restoreState = true
                                     }
-                                    launchSingleTop = true
-                                    restoreState = true
+                                },
+                                icon = {
+                                    Icon(
+                                        modifier = Modifier
+                                            .size(if (selected) 40.dp else 26.dp),
+                                        imageVector = screen.icon,
+                                        contentDescription = null,
+                                        tint = if (selected) AppTheme.colors.primary else
+                                            AppTheme.colors.onContainer
+                                    )
                                 }
-                            },
-                            icon = {
-                                Icon(
-                                    modifier = Modifier
-                                        .size(if (selected) 40.dp else 26.dp),
-                                    imageVector = screen.icon,
-                                    contentDescription = null,
-                                    tint = if (selected) AppTheme.colors.primary else
-                                        AppTheme.colors.onContainer
-                                )
-                            }
-                        )
+                            )
+                        }
                     }
                 }
             }, snackbarHost = {

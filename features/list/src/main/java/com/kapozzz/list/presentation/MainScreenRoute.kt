@@ -17,6 +17,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
+import com.kapozzz.common.LocalBottomBarState
 import com.kapozzz.common.LocalNavigator
 import com.kapozzz.common.LocalSnackbarHost
 import com.kapozzz.common.navigation.Navigator
@@ -37,6 +38,8 @@ fun MainScreenRoute(
     val navigator = LocalNavigator.current
     val lifecycle = LocalLifecycleOwner.current
     val snackbarHostState = LocalSnackbarHost.current
+
+    LocalBottomBarState.current.isVisible.value = true
 
     LaunchedEffect(true) {
         lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
