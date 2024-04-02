@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -54,7 +55,13 @@ fun ItemsScreen(
         onRefresh = { setEvent(MainScreenEvent.RefreshData) }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier
+                .fillMaxSize()
+                .pointerInput(Unit) {
+                    detectVerticalDragGestures { _, dragAmount ->
+                        state.panelIsVisible.value = dragAmount.toInt() < 0
+                    }
+                }
         ) {
             FilterPanel(
                 state = state,
@@ -67,12 +74,7 @@ fun ItemsScreen(
             LazyVerticalGrid(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(top = 8.dp)
-                    .pointerInput(Unit) {
-                        detectVerticalDragGestures { change, dragAmount ->
-                            state.panelIsVisible.value = dragAmount.toInt() <= 0
-                        }
-                    },
+                    .padding(top = 8.dp),
                 contentPadding = PaddingValues(8.dp),
                 columns = GridCells.Fixed(2)
             ) {
@@ -81,8 +83,14 @@ fun ItemsScreen(
                     state.items.value,
                     key = { item -> item.id }
                 ) { item ->
+                    val padding = if (item == state.items.value.last()) 100.dp else 8.dp
                     ItemCard(
-                        modifier = Modifier.padding(8.dp),
+                        modifier = Modifier.padding(
+                            top = 8.dp,
+                            start = 8.dp,
+                            end = 8.dp,
+                            bottom = padding
+                        ),
                         item = item,
                         onBasketClick = {
                             setEvent(MainScreenEvent.OnBasketClick(it))

@@ -131,7 +131,7 @@ fun ItemCard(
                 Text(
                     modifier = Modifier
                         .padding(start = 6.dp),
-                    text = item.title,
+                    text = item.subtitle,
                     style = AppTypo.itemLarge,
                     color = AppTheme.colors.onContainer
                 )

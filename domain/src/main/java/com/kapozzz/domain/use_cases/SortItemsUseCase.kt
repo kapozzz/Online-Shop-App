@@ -21,7 +21,7 @@ class SortItemsUseCase @Inject constructor() {
             }
 
             SortType.ByRating -> {
-                list.sortedBy { it.feedback.rating }
+                list.sortedByDescending { it.feedback.rating }
             }
         }
     }
